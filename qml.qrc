@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>src/XMenu.qml</file>
+        <file>src/AddNewFeedDialog.qml</file>
+        <file>src/ArticleContent.qml</file>
+        <file>src/ArticleListView.qml</file>
+        <file>src/FeedManagerView.qml</file>
+    </qresource>
+    <qresource prefix="/image"/>
+</RCC>
