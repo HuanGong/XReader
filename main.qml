@@ -12,8 +12,8 @@ ApplicationWindow {
     width: 800
     height: 480
     color: "#929292"
-    //minimumHeight : 640
-    //minimumWidth : 400
+    minimumHeight : 480
+    minimumWidth : 640
     title: qsTr("XReader")
 
     menuBar: XMenu {
@@ -35,6 +35,7 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             Layout.alignment: Qt.AlignRight | Qt.AlignTop
             Layout.maximumWidth: 320
+            Layout.minimumWidth: 240
             Layout.fillHeight: true
             onWidthChanged: {
 
@@ -106,7 +107,7 @@ ApplicationWindow {
             WebView {
                 id: web_view
                 anchors.fill: parent
-                url: "http://www.weixin.com"
+                url: "http://www.ifeng.com"
             }
 
             Rectangle {

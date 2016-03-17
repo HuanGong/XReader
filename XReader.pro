@@ -1,11 +1,12 @@
 TEMPLATE = app
 
 QT += qml quick widgets
-QT += webview
+QT += webview webenginewidgets
 
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    src/xreadercontext.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,3 +17,6 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 DISTFILES +=
+
+HEADERS += \
+    src/xreadercontext.h
