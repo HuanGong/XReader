@@ -6,6 +6,7 @@
         <file>src/ArticleContent.qml</file>
         <file>src/ArticleListView.qml</file>
         <file>src/FeedManagerView.qml</file>
+        <file>qmlComponentCreator.js</file>
     </qresource>
     <qresource prefix="/image"/>
 </RCC>

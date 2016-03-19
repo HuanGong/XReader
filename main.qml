@@ -55,6 +55,15 @@ ApplicationWindow {
                     console.log(model_instance.feed)
                     stack_view.push(article_list_view)
                 }
+
+                onSigShowAddFeedDlg: {
+                    var component = Qt.createComponent("qrc:/src/AddNewFeedDialog.qml");
+                    if (component.status === Component.Ready)
+                        component.createObject(xread_window, {});
+                    else
+                        console.log("conmentnet not ready"+ component.errorString())
+                }
+
             }
 
             ArticleListView{
@@ -129,4 +138,5 @@ ApplicationWindow {
             }
         }
     }
+
 }

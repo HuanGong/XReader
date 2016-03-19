@@ -21,35 +21,7 @@ Item {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-/*
-            Button {
-                id: bt_reload_feed
-                width: 96; height: 28
-                text: "Reload Feed"
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: 4
-                onClicked: {
-                    console.log('bt_reload_feed triged')
-                    article_list_view.reload_feed()
-                }
-            }
 
-            Button {
-                id: bt_backToMainView
-                x: 556
-                width: 96; height: 28
-                text: "bt_backToMainView"
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.top: bt_reload_feed.bottom
-                anchors.topMargin: 0
-                onClicked: {
-                    console.log('bt_backToMainView Triged')
-                    backToMainPage()
-                }
-            }*/
         }
 
         ListView {

@@ -1,9 +1,12 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
+import QtQuick.Dialogs 1.2
 
 Item {
+    property var dlgobj: null
     signal sigChanelSelected(var model_instance)
+    signal sigShowAddFeedDlg(var arg1)
 
     id: feedManagerView
     anchors.fill: parent
@@ -25,7 +28,22 @@ Item {
                 text: "Add Feed"
                 onClicked: {
                     console.log("add a new feed to GridView")
-                    addNewFeed();
+                    //Qt.createComponent("AddNewFeedDialog.qml").createObject(feedManagerView, {});
+                    sigShowAddFeedDlg(null);
+                    //addNewFeed();
+/*
+                    var component = Qt.createComponent("AddNewFeedDialog.qml");
+                    var incubator = component.incubateObject(feedManagerView, {});
+
+                    if (incubator.status !== Component.Ready) {
+                        incubator.onStatusChanged = function(status) {
+                            if (status === Component.Ready) {
+                                print ("Object", incubator.object, "is now ready!");
+                            }
+                        }
+                    } else {
+                        print ("Object", incubator.object, "is ready immediately!");
+                    }*/
                 }
             }
         }
@@ -47,24 +65,6 @@ Item {
                 id: feed_data
                 ListElement {
                     name: "Oschina"
-                    feed: "http://www.baidu.com"
-                    colorCode: "#218868"
-                }
-
-                ListElement {
-                    name: "Google"
-                    feed: "http://www.baidu.com"
-                    colorCode: "#218868"
-                }
-
-                ListElement {
-                    name: "Sina Blog"
-                    feed: "http://www.baidu.com"
-                    colorCode: "#218868"
-                }
-
-                ListElement {
-                    name: "SoftNoteXXXXXXXXXGonghuan"
                     feed: "http://www.baidu.com"
                     colorCode: "#218868"
                 }
@@ -190,19 +190,34 @@ Item {
         }
     }
 
-    AddNewFeedDialog {
-        id: add_new_feed_dialog
-        visible: false
-    }
-
     function addNewFeed() {
+
+        if (dlgobj !== null) {
+            dlgobj.open();
+            return;
+        }
+
         console.log("addNewFeed called, insert to Model")
-        ///*
+        var dlg_component = Qt.createComponent("AddNewFeedDialog.qml");
+        if (dlg_component.status === Component.Ready) {
+            dlgobj = dlg_component.createObject(feedManagerView,
+                                                 {  "x": 100,
+                                                    "y": 100
+                                                 });
+            if (dlgobj === null) {
+                console.log("create failed")
+            }
+            dlgobj.open();
+            console.log("xxxxxxxxxxxxxx dlg create ok")
+        }
+
+
+        /*
         grid_chanel_view.model.insert(0, {"name": "xxxx",
                                           "feed": "http://www.google.com",
                                           "colorCode": "#218868"} )
-        //*/
-        //add_new_feed_dialog.open()
+        */
+
 
     }
 }
