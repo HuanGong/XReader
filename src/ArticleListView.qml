@@ -33,11 +33,12 @@ Item {
 
             model: XmlListModel {
                 id: rssModel
-                source: "https://developer.ubuntu.com/en/blog/feeds/"
+                source: "http://www.oschina.net/news/rss?show=industry"
+                //"https://developer.ubuntu.com/en/blog/feeds/"
                 query: "/rss/channel/item"
-                XmlRole { name: "title"; query: "title/string()" }
                 XmlRole { name: "link"; query: "link/string()" }
-                XmlRole { name: "published"; query: "pubDate/string()" }
+                XmlRole { name: "title"; query: "title/string()" }
+                XmlRole { name: "pubDate"; query: "pubDate/string()" }
                 XmlRole { name: "content"; query: "description/string()" }
             }
 
@@ -55,9 +56,9 @@ Item {
                     color: "#AEAEAE"
                     Text {
                         id: rss_text
-                        anchors.centerIn: parent
+                        anchors.fill: parent
                         font.pointSize: 8
-                        text: { return "<b>" + published + "</b>"; }
+                        text: { return "<b>" + title + "</b>"; }
                     }
                     MouseArea {
                         anchors.fill: parent

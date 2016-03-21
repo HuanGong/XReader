@@ -8,9 +8,10 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    new XReaderContext();
     QtWebView::initialize();
 
-    new XReaderContext();
+
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
