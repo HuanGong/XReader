@@ -5,6 +5,7 @@ import QtQuick.Controls 1.4
 
 
 Item {
+    signal sigOkPressed(var url, var name);
     signal sigComponentLoaded();
 
     id: dialogComponent
@@ -51,8 +52,8 @@ Item {
             id: column
             spacing: 10
             anchors.top: parent.top; anchors.topMargin: 64
-            anchors.left: parent.left; anchors.leftMargin: 20
-            anchors.right: parent.right; anchors.rightMargin: 20
+            anchors.left: parent.left; anchors.leftMargin: 16
+            anchors.right: parent.right; anchors.rightMargin: 16
 
             Rectangle {
                 id:row1
@@ -63,8 +64,7 @@ Item {
 
                 Text {
                     id: tag_feedurl
-                    width: 64
-                    height: 24
+                    width: 64;height: 24
                     text: qsTr("Feed URL:")
                     anchors.left: parent.left
                     //anchors.leftMargin: 2
@@ -99,16 +99,16 @@ Item {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         //horizontalAlignment: Text.AlignHCenter
-
                         text: qsTr("http://")
                         font.bold: false
                         font.pointSize: 10
                         cursorVisible: false
-                        //                    selectionColor: "#d4ea63"
                         onFocusChanged: {
                             if (focus === false && text !== qsTr("http://")) {
                                 console.log("Log::::::onFocusChanged")
                                 feedTestModel.source = text
+                            } else if (focus === true) {
+                                feed_url.color = "dark"
                             }
                         }
                         Rectangle {
@@ -236,29 +236,22 @@ Item {
             Button {
                 id: bt_ok
                 enabled: false
-                //anchors.right: parent.right
                 anchors.leftMargin: 40
                 text: qsTr("  Add  ");
-                //anchors.bottom: parent.bottom
-                //anchors.bottomMargin: 20
                 onClicked: {
                     if (feed_url.text.length == 0) {
                         console.log("please input correctly url")
                         return;
-                        //check the feed is right
                     }
+                    sigOkPressed(feed_url.text, feed_name.text);
                     dialogComponent.destroy();
                 }
             }
         }
 
-
-
-
     }
     Component.onCompleted: {
         console.log("addnew feed dlg component loaded")
-        sigComponentLoaded();
     }
 
 
@@ -272,7 +265,7 @@ Item {
         onStatusChanged: {
             if (status === XmlListModel.Error) {
                 console.log("error xml parse")
-                img_feed_checker.color = "red"
+                feedVerifyFailed();
             } else if (status === XmlListModel.Loading) {
                 img_feed_checker.color = "blue"
             } else if (status === XmlListModel.Ready) {
@@ -280,12 +273,24 @@ Item {
                 console.log(title)
                 if (title !== undefined) {
                     console.log("xmlListModel.Ready xml parse")
-                    img_feed_checker.color = "green"
+                    feedVerifySuccess();
                 } else {
-                    img_feed_checker.color = "red"
+                    feedVerifyFailed();
                 }
             }
         }
+
+    }
+
+    function feedVerifyFailed() {
+        bt_ok.enabled = false
+        feed_url.color = "red"
+        img_feed_checker.color = "red"
+    }
+
+    function feedVerifySuccess() {
+        bt_ok.enabled = true
+        img_feed_checker.color = "green"
 
     }
 

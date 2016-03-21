@@ -53,7 +53,7 @@ Item {
                 id: feed_data
                 ListElement {
                     name: "Oschina"
-                    feed: "http://www.baidu.com"
+                    feed: "http://www.oschina.net/news/rss?show=industry"
                     colorCode: "#218868"
                 }
             }
@@ -178,7 +178,10 @@ Item {
         }
     }
 
-    function addNewFeed() {
+    function onAddNewFeed(url, name) {
+        console.log("onAddNewFeed be trigged", url, name)
+        grid_chanel_view.model.insert();
+        feed_data.insert(feed_data.count, {"name": name, "feed": url, "colorCode": "#218868"})
 
         /*
         var component = Qt.createComponent("AddNewFeedDialog.qml");

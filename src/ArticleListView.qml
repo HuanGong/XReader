@@ -33,7 +33,7 @@ Item {
 
             model: XmlListModel {
                 id: rssModel
-                source: "http://www.oschina.net/news/rss?show=industry"
+                //source: "http://www.oschina.net/news/rss?show=industry"
                 //"https://developer.ubuntu.com/en/blog/feeds/"
                 query: "/rss/channel/item"
                 XmlRole { name: "link"; query: "link/string()" }
@@ -112,6 +112,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 console.log('bt_backToMainView Triged')
+                rssModel.source = qsTr("")
                 backToMainPage()
 
             }
@@ -141,4 +142,7 @@ Item {
         }
     }
 
+    function setFeed(feed_source) {
+        rssModel.source = feed_source;
+    }
 }

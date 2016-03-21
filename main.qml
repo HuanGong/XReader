@@ -48,17 +48,20 @@ ApplicationWindow {
                 id: chanel_page
                 anchors.fill: parent
                 onSigChanelSelected: {
-                    console.log("onSigChanelSelected slot triged")
-                    console.log(model_instance.feed)
+                    //article_list_view.model =  model_instance.feed
+                    article_list_view.setFeed(model_instance.feed)
                     stack_view.push(article_list_view)
                 }
 
                 onSigShowAddFeedView: {
                     var component = Qt.createComponent("qrc:/src/AddNewFeedView.qml");
-                    if (component.status === Component.Ready)
-                        component.createObject(xread_window, {});
-                    else
+                    if (component.status === Component.Ready) {
+                        var dlg = component.createObject(xread_window, {});
+                        dlg.sigOkPressed.connect(chanel_page.onAddNewFeed);
+                    } else {
                         console.log("conmentnet not ready"+ component.errorString())
+
+                    }
                 }
 
             }
@@ -70,8 +73,8 @@ ApplicationWindow {
                 visible: false
                 onClicked: {
                     console.log('article_list_view  onClicked')
-                    //web_view.url = model_instance.link
-                    web_view.loadHtml(model_instance.content, model_instance.link)
+                    web_view.url = model_instance.link
+                    //web_view.loadHtml(model_instance.content, model_instance.link)
                     //stack_view.push(article_content)
                 }
                 onBackToMainPage: {
