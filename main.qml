@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
-import QtWebEngine 1.2
 
 import "src"
 
@@ -73,7 +72,11 @@ ApplicationWindow {
                 visible: false
                 onClicked: {
                     console.log('article_list_view  onClicked')
-                    web_view.url = model_instance.link
+                    if (content_loader.item.objectName == "webview") {
+                        //web_view.url = model_instance.link
+                        console.log("start loading a new url")
+                        content_loader.item.weburl = model_instance.link
+                    }
                     //web_view.loadHtml(model_instance.content, model_instance.link)
                     //stack_view.push(article_content)
                 }
@@ -105,65 +108,10 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: 0
 
-            WebEngineView {
-
-                id: web_view
+            Loader {
+                id: content_loader
                 anchors.fill: parent
-                url: "http://www.apple.com"
-                zoomFactor: 4
-                onLoadProgressChanged: {
-                    if (loadProgress > 79) {
-                        scheduleZoom();
-                    }
-                }
-                onLoadingChanged: {
-                    console.log("loading changed.....")
-                }
-
-                Component.onCompleted: {
-                    web_view.settings.pluginsEnabled = true;
-                    web_view.settings.javascriptCanOpenWindows = false;
-                    web_view.settings.spatialNavigationEnabled = false;
-                    zoomFactor: zoom_size.value
-                }
-                Timer {
-                    id: timer
-                    interval: 1000; running: false; repeat: false;
-                    onTriggered: {
-                        console.log("xxxxxxxxxxx timer triggered")
-                        web_view.runJavaScript("document.body.style.zoom="+zoom_size.value, function(result) { console.log(result); });
-
-                    }
-                }
-
-                function scheduleZoom() {
-                    if (timer.running == true) {
-                        timer.restart();
-                    } else {
-                        timer.start();
-                    }
-
-                }
-            }
-
-
-            Slider {
-                id: zoom_size
-                orientation: Qt.Vertical
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: 10
-                maximumValue: 2.0
-                minimumValue: 0.5
-                updateValueWhileDragging: true
-                value: 0.8
-                stepSize: 0.1
-                height: 100
-                onValueChanged: {
-                    console.log("set zoom factor to :" + value)
-                    web_view.zoomFactor = value
-                }
+                source: "qrc:/src/RssContentWebView.qml"
             }
 
             Rectangle {
@@ -179,7 +127,20 @@ ApplicationWindow {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        stack_view.visible = !stack_view.visible
+                        //stack_view.visible = !stack_view.visible
+                        if (content_loader.item.objectName === "webview") {
+                            content_loader.source = "qrc:/src/snack/XExplorer.qml"
+                        } else {
+                            content_loader.source = "qrc:/src/RssContentWebView.qml"
+                        }
+
+
+                        if (false && content_loader.item.objectName == "webview") {
+                            //web_view.url = model_instance.link
+                            console.log("start loading a new url")
+                            content_loader.item.iswebview();
+                            content_loader.item.weburl = "http://www.baidu.com"
+                        }
                     }
                 }
             }

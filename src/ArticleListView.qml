@@ -21,7 +21,16 @@ Item {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-
+            Text {
+                id: item_dsc
+                elide: Text.ElideRight
+                anchors.fill: parent
+                wrapMode: Text.WordWrap
+                textFormat: Text.PlainText
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                font.pointSize: 9;
+                text: qsTr("")
+            }
         }
 
         ListView {
@@ -40,6 +49,22 @@ Item {
                 XmlRole { name: "title"; query: "title/string()" }
                 XmlRole { name: "pubDate"; query: "pubDate/string()" }
                 XmlRole { name: "content"; query: "description/string()" }
+
+                onStatusChanged: {
+                    if (status !== XmlListModel.Ready && status !== XmlListModel.Error) {
+                        busyIndicator.running = true;
+                    } else {
+                        busyIndicator.running = false;
+                    }
+                }
+
+                onSourceChanged: {
+                    if (source !== "") {
+                        busyIndicator.running = true
+                    } else {
+                        busyIndicator.running = false
+                    }
+                }
             }
 
             add: Transition {
@@ -48,27 +73,58 @@ Item {
 
             delegate: Rectangle {
                 width: parent.width
-                height: 24
+                height: 32
                 color: "#f69331"
                 Rectangle {
-                    width: parent.width
-                    height: 23
+                    radius: 3
+                    anchors.bottom: parent.bottom; anchors.bottomMargin: 1
+                    anchors.right: parent.right; anchors.rightMargin: 1
+                    anchors.left: parent.left; anchors.leftMargin: 1
+                    anchors.top: parent.top; anchors.topMargin: 2
                     color: "#AEAEAE"
-                    Text {
-                        id: rss_text
-                        anchors.fill: parent
-                        font.pointSize: 8
-                        text: { return "<b>" + title + "</b>"; }
+                    Item {
+                        height: 16
+                        anchors.top: parent.top;
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        Layout.fillWidth: true
+                        Text {
+                            id: rss_text
+                            elide: Text.ElideRight
+                            anchors.fill: parent
+                            font.pointSize: 10
+                            text: { return "<b>" + title + "</b>"; }
+                        }
                     }
+                    Item {
+                        height: 14
+                        anchors.bottom: parent.bottom
+                        anchors.right: parent.right
+                        Text {
+                            id: pub_date
+                            anchors.bottom: parent.bottom
+                            anchors.right: parent.right; anchors.rightMargin: 2
+                            font.pointSize: 9
+                            text: pubDate
+                        }
+                    }
+
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
                             console.log("send a signal clicked")
                             article_list.clicked(model)
+                            item_dsc.text = model.content
                         }
                     }
                 }
 
+            }
+
+            BusyIndicator {
+                id: busyIndicator
+                anchors.centerIn: parent
+                running: false
             }
 
             // Define a highlight with customized movement between items.
@@ -81,7 +137,6 @@ Item {
                     Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
                 }
             }
-
 
             //highlight: highlightBar
             //Scrollbar {
@@ -112,7 +167,8 @@ Item {
             anchors.fill: parent
             onClicked: {
                 console.log('bt_backToMainView Triged')
-                rssModel.source = qsTr("")
+                rssModel.source = qsTr("");
+                item_dsc.text = qsTr("");
                 backToMainPage()
 
             }

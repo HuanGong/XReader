@@ -4,9 +4,16 @@
         <file>src/XMenu.qml</file>
         <file>src/ArticleContent.qml</file>
         <file>src/ArticleListView.qml</file>
-        <file>src/FeedManagerView.qml</file>
-        <file>qmlComponentCreator.js</file>
         <file>src/AddNewFeedView.qml</file>
+        <file>src/FeedManagerView.qml</file>
+        <file>src/HttpRequest.js</file>
+        <file>src/feedstorage.js</file>
+        <file>src/RssContentWebView.qml</file>
+        <file>src/snack/XExplorer.qml</file>
+        <file>src/BusyingIndicator.qml</file>
     </qresource>
     <qresource prefix="/image"/>
+    <qresource prefix="/wellcome">
+        <file>resource/wellcome.html</file>
+    </qresource>
 </RCC>
