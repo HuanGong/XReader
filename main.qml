@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import "qrc:/src/XReaderWindow.js" as XReader
 
 import "src"
 
@@ -10,7 +11,6 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 480
-    color: "#929292"
     minimumHeight : 480
     minimumWidth : 640
     title: qsTr("XReader")
@@ -20,127 +20,99 @@ ApplicationWindow {
     }
 
     SplitView {
-        id: splitView1
+        id: splitView
         anchors.fill: parent
 
-        StackView {
-            id: stack_view
-            visible: true
+        Item {
+            id: side_bar
             width: 240
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            Layout.alignment: Qt.AlignRight | Qt.AlignTop
-            Layout.maximumWidth: 300
-            Layout.minimumWidth: 180
+            visible: true
             Layout.fillHeight: true
+            Layout.maximumWidth: 280
+            Layout.minimumWidth: 200
 
-            initialItem: chanel_page //article_list_view
-            Component.onCompleted: {
-                console.log('pagestack created')
-                //stack_view.push(article_list_view);
-            }
-
-            FeedManagerView{
-                id: chanel_page
+            StackView {
+                id: stack_view
                 anchors.fill: parent
-                onSigChanelSelected: {
-                    //article_list_view.model =  model_instance.feed
-                    article_list_view.setFeed(model_instance.feed)
-                    stack_view.push(article_list_view)
-                }
 
-                onSigShowAddFeedView: {
-                    var component = Qt.createComponent("qrc:/src/AddNewFeedView.qml");
-                    if (component.status === Component.Ready) {
-                        var dlg = component.createObject(xread_window, {});
-                        dlg.sigOkPressed.connect(chanel_page.onAddNewFeed);
-                    } else {
-                        console.log("conmentnet not ready"+ component.errorString())
+                initialItem: FeedManagerView{
+                    id: chanel_page
+                    onSigChanelSelected: {
+                        //article_list_view.model =  model_instance.feed
+                        var article_list_view = article_list_component.createObject(stack_view);
+                        article_list_view.setFeed(model_instance.feed)
+                        article_list_view.articleClicked.connect(XReader.loadSelectedArticle);
+                        article_list_view.backToMainPage.connect(XReader.backToFeedManagerView);
+                        stack_view.push({item:article_list_view, destroyOnPop:true})
+                    }
 
+                    onSigShowAddFeedView: {
+                        var component = Qt.createComponent("qrc:/src/AddNewFeedView.qml");
+                        if (component.status === Component.Ready) {
+                            var dlg = component.createObject(xread_window, {});
+                            dlg.sigOkPressed.connect(chanel_page.onAddNewFeed);
+                        } else {
+                            console.log("conmentnet not ready"+ component.errorString())
+                        }
                     }
                 }
 
-            }
-
-            ArticleListView{
-                id: article_list_view
-                width: 320
-                clip: false
-                visible: false
-                onClicked: {
-                    console.log('article_list_view  onClicked')
-                    if (content_loader.item.objectName == "webview") {
-                        //web_view.url = model_instance.link
-                        console.log("start loading a new url")
-                        content_loader.item.weburl = model_instance.link
+                Component {
+                    id: article_list_component
+                    ArticleListView{
+                        id: article_list_view
+                        anchors.fill: parent
                     }
-                    //web_view.loadHtml(model_instance.content, model_instance.link)
-                    //stack_view.push(article_content)
                 }
-                onBackToMainPage: {
-                    console.log('onBackToMainPage')
-                    chanel_page.visible = true
-                    stack_view.pop()
-                }
-            }
-
-            ArticleContent {
-                id: article_content
-                anchors.fill: parent
-                visible: false
             }
         }
 
-        Rectangle {
-            id: rssContenView
-            width: 200
-            color: "#ffffee"
-            Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-            border.color: "#ee2828"
-            border.width: 2
+        Item {
+            id: conten_view
             anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
             anchors.right: parent.right
-            anchors.rightMargin: 0
+            anchors.bottom: parent.bottom
+            Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
 
-            Loader {
+            Loader { //the main content for display
                 id: content_loader
                 anchors.fill: parent
                 source: "qrc:/src/RssContentWebView.qml"
             }
 
-            Rectangle {
-                id: bt_maximumContent
-                width: 16; height: 16
-                color: "#00633e"
-                anchors.top: parent.top
-                anchors.topMargin: 10
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                radius: 8
-                opacity: 0.75
+            Image {
+                id: app_menu
+                width: 24; height: 24
+                anchors.top: parent.top; anchors.topMargin: 6;
+                anchors.left: parent.left; anchors.leftMargin: 6
+                source: "qrc:/image/icon/app.png"
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        if (content_loader.item.objectName != "XExploerer")
+                            content_loader.source = "qrc:/src/snack/XExplorer.qml"
+                        else
+                            content_loader.source = "qrc:/wellcome/resource/wellcome.html"
+                    }
+                }
+            }
+
+            Image {
+                id: img_view_max
+                width: 18; height: 18
+                anchors.top: parent.top;anchors.topMargin: 10
+                anchors.right: parent.right;anchors.rightMargin: 10
+                source: "qrc:/image/icon/view_max.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        //stack_view.visible = !stack_view.visible
-                        if (content_loader.item.objectName === "webview") {
-                            content_loader.source = "qrc:/src/snack/XExplorer.qml"
+                        side_bar.visible = !side_bar.visible;
+                        if (stack_view.visible === true) {
+                            img_view_max.source = "qrc:/image/icon/view_max.png"
                         } else {
-                            content_loader.source = "qrc:/src/RssContentWebView.qml"
+                            img_view_max.source = "qrc:/image/icon/view-restore.png"
                         }
 
-
-                        if (false && content_loader.item.objectName == "webview") {
-                            //web_view.url = model_instance.link
-                            console.log("start loading a new url")
-                            content_loader.item.iswebview();
-                            content_loader.item.weburl = "http://www.baidu.com"
-                        }
                     }
                 }
             }

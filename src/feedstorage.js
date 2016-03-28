@@ -13,7 +13,7 @@ function initDatabase() {
     });
     //clearDataBase();
     insertData({"name":"Oschina", "feed": "http://www.oschina.net/news/rss?show=industry"})
-    //insertData({"name":"Baidu", "feed": "mm"})
+    insertData({"name":"Baidu", "feed": "mm"})
 }
 
 function readData() {

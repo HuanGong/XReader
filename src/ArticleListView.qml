@@ -5,20 +5,23 @@ import QtQuick.Layouts 1.0
 
 
 Item {
-    id: article_list
-    signal clicked(var model_instance)
     signal backToMainPage()
+    signal articleClicked(var model_instance)
     property alias status: rssModel.status
 
+    id: article_list
+
+    objectName: qsTr("ArticleList")
+    anchors.fill: parent
     ColumnLayout {
+        spacing: 0
         anchors.fill: parent
 
         Rectangle {
             id: xreader_title
-            z: 2
-            width: 200; height: 64
+            z: 2; height: 48
             color: "#f69331"
-            Layout.fillHeight: false
+            anchors.top: parent.top
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             Text {
@@ -35,15 +38,15 @@ Item {
 
         ListView {
             id: article_list_view
-            z: 1
+            spacing: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            Layout.alignment: Qt.AlignHCenter
+            //highlightFollowsCurrentItem: false
+            focus: true
 
             model: XmlListModel {
                 id: rssModel
-                //source: "http://www.oschina.net/news/rss?show=industry"
-                //"https://developer.ubuntu.com/en/blog/feeds/"
                 query: "/rss/channel/item"
                 XmlRole { name: "link"; query: "link/string()" }
                 XmlRole { name: "title"; query: "title/string()" }
@@ -68,25 +71,25 @@ Item {
             }
 
             add: Transition {
-                NumberAnimation { properties: "x,y"; from: 0; duration: 1000 }
+                NumberAnimation { properties: "x,y"; from: 0; duration: 800 }
             }
 
-            delegate: Rectangle {
-                width: parent.width
-                height: 32
-                color: "#f69331"
+            delegate: Item {
+                width: parent.width; height: 32
                 Rectangle {
-                    radius: 3
-                    anchors.bottom: parent.bottom; anchors.bottomMargin: 1
-                    anchors.right: parent.right; anchors.rightMargin: 1
-                    anchors.left: parent.left; anchors.leftMargin: 1
-                    anchors.top: parent.top; anchors.topMargin: 2
-                    color: "#AEAEAE"
+                    radius: 4
+                    opacity: 0.8
+                    color: "#87CEEB"
+                    anchors.fill: parent
+                    anchors.topMargin: 1
+                    anchors.leftMargin: 1
+                    anchors.rightMargin: 1
+                    anchors.bottomMargin: 1
                     Item {
                         height: 16
                         anchors.top: parent.top;
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                        anchors.left: parent.left; anchors.leftMargin: 2
+                        anchors.right: parent.right; anchors.rightMargin: 2
                         Layout.fillWidth: true
                         Text {
                             id: rss_text
@@ -112,13 +115,12 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            console.log("send a signal clicked")
-                            article_list.clicked(model)
-                            item_dsc.text = model.content
+                            article_list_view.currentIndex = index;
+                            article_list.articleClicked(model)
+                            item_dsc.text = model.title
                         }
                     }
                 }
-
             }
 
             BusyIndicator {
@@ -127,21 +129,21 @@ Item {
                 running: false
             }
 
-            // Define a highlight with customized movement between items.
-            Component {
+
+            highlight: highlightBar
+            Component { // Define a highlight with customized movement between items.
                 id: highlightBar
                 Rectangle {
-                    width: parent.width; height: 25
-                    color: "#FFFF88"
-                    y: listView.currentItem.y;
-                    Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+                    id: higlight_rect
+                    //width: article_list_view.width;
+                    color: "#F4A460"
+                    //x: article_list_view.currentItem.x;
+                    //y: article_list_view.currentItem.y;
+                    //Behavior on y { SpringAnimation { spring: 3; damping: 0.2 } }
                 }
             }
 
-            //highlight: highlightBar
-            //Scrollbar {
-            //flickableItem: listView
-            //}
+
             function reload_feed() {
                 console.log('reloading')
                 rssModel.reload()
@@ -170,7 +172,6 @@ Item {
                 rssModel.source = qsTr("");
                 item_dsc.text = qsTr("");
                 backToMainPage()
-
             }
         }
     }
@@ -192,10 +193,18 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                console.log("article_list_view", article_list_view.height, article_list.height)
                 console.log('bt_reload_feed triged')
-                article_list_view.reload_feed()
+                //article_list_view.reload_feed()
             }
         }
+    }
+
+    Component.onDestruction: {
+        console.log("article_list_view is going to die")
+    }
+    Component.onCompleted: {
+        console.log("a new article_list_view created")
     }
 
     function setFeed(feed_source) {

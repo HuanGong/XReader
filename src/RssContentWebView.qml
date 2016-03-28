@@ -39,20 +39,19 @@ WebEngineView {
 
     Slider {
         id: zoom_size
+        height: 72
         z: 2
-        orientation: Qt.Vertical
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.top: parent.top
-        anchors.topMargin: 10
         maximumValue: 2.0
         minimumValue: 0.5
+        orientation: Qt.Vertical
+        anchors.right: parent.right
+        anchors.rightMargin: 6
+        anchors.top: parent.top
+        anchors.topMargin: 32
         updateValueWhileDragging: true
-        value: 0.8
+        value: 1.0
         stepSize: 0.1
-        height: 100
         onValueChanged: {
-            console.log("set zoom factor to :" + value)
             web_view.zoomFactor = value
         }
     }
@@ -60,7 +59,6 @@ WebEngineView {
         id: timer
         interval: 1000; running: false; repeat: false;
         onTriggered: {
-            console.log("xxxxxxxxxxx timer triggered")
             web_view.runJavaScript("document.body.style.zoom="+zoom_size.value, function(result) { console.log(result); });
         }
     }
