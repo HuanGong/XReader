@@ -1,18 +1,18 @@
-#include <QApplication>
-#include <QtWebView>
-#include <QWebEngineSettings>
+#include <QtWebEngine>
 #include <QQmlApplicationEngine>
 
 #include "src/xreadercontext.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    //QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
-    app.setWindowIcon(QIcon("qrc:/image/icon/app.png"));
+
+    //app.setWindowIcon(QIcon("qrc:/image/icon/app.png"));
     new XReaderContext();
 
-    QtWebView::initialize();
+    QtWebEngine::initialize();
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

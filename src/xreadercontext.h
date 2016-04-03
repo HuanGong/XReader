@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <QObject>
-#include <qwebenginesettings.h>
+//#include <qwebenginesettings.h>
 
 
 class XReaderContext
@@ -14,7 +14,7 @@ public:
 
 private:
     //this pointer not need delete
-    QWebEngineSettings *default_websetting;
+    //QWebEngineSettings *default_websetting;
 };
 
 #endif // XREADERCONTEXT_H

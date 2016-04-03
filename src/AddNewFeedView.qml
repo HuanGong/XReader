@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import QtQuick.XmlListModel 2.0
-
+import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
 
@@ -44,14 +44,14 @@ Item {
             id: tag_add_new_feed
             font.bold: true
             text: qsTr("Add New Feeds")
-            anchors.top: parent.top; anchors.topMargin: 20
+            anchors.top: parent.top; anchors.topMargin: 24
             anchors.left: parent.left; anchors.leftMargin: (parent.width-width)/2
         }
 
         Column {
             id: column
             spacing: 10
-            anchors.top: parent.top; anchors.topMargin: 64
+            anchors.top: tag_add_new_feed.bottom; anchors.topMargin: 20
             anchors.left: parent.left; anchors.leftMargin: 16
             anchors.right: parent.right; anchors.rightMargin: 16
 
@@ -64,14 +64,14 @@ Item {
 
                 Text {
                     id: tag_feedurl
-                    width: 64;height: 24
+                    height: 24
                     text: qsTr("Feed URL:")
-                    anchors.left: parent.left
-                    //anchors.leftMargin: 2
+                    clip: true
+                    anchors.left: parent.left; anchors.leftMargin: 2
                     anchors.verticalCenter: parent.verticalCenter
 
                     //font.bold: true
-                    font.pointSize: 12
+                    font.pointSize: height/2
                     textFormat: Text.PlainText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -147,15 +147,12 @@ Item {
 
                 Text {
                     id: tag_title
-                    width: 64
                     height: 24
                     text: qsTr("Feed Title:")
                     anchors.left: parent.left
-                    //anchors.leftMargin: 2
                     anchors.verticalCenter: parent.verticalCenter
 
-                    //font.bold: true
-                    font.pointSize: 12
+                    font.pointSize: height/2
                     textFormat: Text.PlainText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -206,7 +203,6 @@ Item {
                             }
                         }
                     }
-                    //statuscheck View
                 }
             }
 

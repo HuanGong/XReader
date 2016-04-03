@@ -8,12 +8,14 @@ WebEngineView {
     property alias zoomfactor: web_view.zoomFactor
 
     id: web_view
+    visible: true
     objectName: "webview"
     anchors.fill: parent
     url: "qrc:/wellcome/resource/wellcome.html"
     zoomFactor: 1
     onLoadProgressChanged: {
         if (loadProgress > 79) {
+            busyIndicator.running = false;
             //scheduleZoom();
         }
     }

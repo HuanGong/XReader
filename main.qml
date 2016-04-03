@@ -2,6 +2,8 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import QtWebEngine 1.2
+
 import "qrc:/src/XReaderWindow.js" as XReader
 
 import "src"
@@ -9,8 +11,8 @@ import "src"
 ApplicationWindow {
     id: xread_window
     visible: true
-    width: 800
-    height: 480
+    width: 1280
+    height: 720
     minimumHeight : 480
     minimumWidth : 640
     title: qsTr("XReader")
@@ -92,7 +94,7 @@ ApplicationWindow {
                         if (content_loader.item.objectName != "XExploerer")
                             content_loader.source = "qrc:/src/snack/XExplorer.qml"
                         else
-                            content_loader.source = "qrc:/wellcome/resource/wellcome.html"
+                            content_loader.source = "qrc:/src/RssContentWebView.qml"
                     }
                 }
             }

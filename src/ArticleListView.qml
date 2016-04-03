@@ -22,23 +22,49 @@ Item {
             z: 2; height: 48
             color: "#f69331"
             anchors.top: parent.top
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            Text {
-                id: item_dsc
-                elide: Text.ElideRight
-                anchors.fill: parent
-                wrapMode: Text.WordWrap
-                textFormat: Text.PlainText
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                font.pointSize: 9;
-                text: qsTr("")
+            Layout.fillWidth: true; Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+
+            Image {
+                id: img_back
+                width: 32; height: 32
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left; anchors.leftMargin: 4
+                source: "qrc:/image/icon/app.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        rssModel.source = qsTr("");
+                        backToMainPage()
+                    }
+                }
+            }
+
+            Image {
+                id: img_reload
+                width: 32; height: 32
+                visible: !busyIndicator.running
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right; anchors.rightMargin: 4
+                source: "qrc:/image/icon/refresh_list.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        busyIndicator.running = true;
+                        article_list_view.reload_feed()
+                    }
+                }
+                BusyIndicator {
+                  id: busyIndicator
+                  width:24; height: 24
+                  anchors.centerIn: parent
+                  running: false
+                }
             }
         }
 
         ListView {
             id: article_list_view
-            spacing: 1
+            spacing: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
@@ -75,18 +101,18 @@ Item {
             }
 
             delegate: Item {
-                width: parent.width; height: 32
+                width: parent.width; height: 36
                 Rectangle {
                     radius: 4
                     opacity: 0.8
-                    color: "#87CEEB"
+                    //color: "#87CEEB"
                     anchors.fill: parent
-                    anchors.topMargin: 1
-                    anchors.leftMargin: 1
-                    anchors.rightMargin: 1
-                    anchors.bottomMargin: 1
+                    anchors.topMargin: 2
+                    anchors.leftMargin: 2
+                    anchors.rightMargin: 2
+                    anchors.bottomMargin: 2
                     Item {
-                        height: 16
+                        height: 18;//2*(height - 4)/3
                         anchors.top: parent.top;
                         anchors.left: parent.left; anchors.leftMargin: 2
                         anchors.right: parent.right; anchors.rightMargin: 2
@@ -117,17 +143,11 @@ Item {
                         onClicked: {
                             article_list_view.currentIndex = index;
                             article_list.articleClicked(model)
-                            item_dsc.text = model.title
                         }
                     }
                 }
             }
 
-            BusyIndicator {
-                id: busyIndicator
-                anchors.centerIn: parent
-                running: false
-            }
 
 
             highlight: highlightBar
@@ -147,55 +167,6 @@ Item {
             function reload_feed() {
                 console.log('reloading')
                 rssModel.reload()
-            }
-        }
-    }
-
-    Rectangle {
-        id: back
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        width: 42; height: 42
-        radius: 20
-        color: "#aa0033"
-        Text {
-            id: back_text
-            anchors.centerIn: parent
-            text: qsTr("back")
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log('bt_backToMainView Triged')
-                rssModel.source = qsTr("");
-                item_dsc.text = qsTr("");
-                backToMainPage()
-            }
-        }
-    }
-
-    Rectangle {
-        id: reload
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        width: 42; height: 42
-        radius: 20
-        color: "#aa0033"
-        Text {
-            id: reload_text
-            anchors.centerIn: parent
-            text: qsTr("Reload")
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log("article_list_view", article_list_view.height, article_list.height)
-                console.log('bt_reload_feed triged')
-                //article_list_view.reload_feed()
             }
         }
     }

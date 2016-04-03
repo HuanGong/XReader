@@ -12,6 +12,7 @@
         <file>src/snack/XExplorer.qml</file>
         <file>src/BusyingIndicator.qml</file>
         <file>src/XReaderWindow.js</file>
+        <file>src/XSettingsView.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>
