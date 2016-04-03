@@ -14,7 +14,7 @@ Item {
 
         Rectangle {
             id: xreader_title
-            z: 2;height: 48
+            z: 2;height: 64
             color: "#f69331"
             Layout.fillHeight: false
             Layout.fillWidth: true
@@ -167,7 +167,6 @@ Item {
         Image {
             id: img_go_top
             anchors.fill: parent
-            //clip: true
             visible: true
             source: "qrc:/image/icon/go-top.png"
             MouseArea {

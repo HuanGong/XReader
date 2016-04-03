@@ -8,18 +8,29 @@
         <file>src/FeedManagerView.qml</file>
         <file>src/HttpRequest.js</file>
         <file>src/feedstorage.js</file>
-        <file>src/RssContentWebView.qml</file>
         <file>src/snack/XExplorer.qml</file>
         <file>src/BusyingIndicator.qml</file>
         <file>src/XReaderWindow.js</file>
         <file>src/XSettingsView.qml</file>
+        <file>src/ApplistView.qml</file>
+        <file>src/SubAppManager.js</file>
+        <file>src/ContentWebView.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>
-        <file>icon/refresh_list.png</file>
-        <file>icon/view_max.png</file>
         <file>icon/view-restore.png</file>
         <file>icon/app.png</file>
+        <file>icon/app-launcher.png</file>
+        <file>icon/app-list.png</file>
+        <file>icon/psensor.png</file>
+        <file>icon/search.png</file>
+        <file>icon/settings.png</file>
+        <file>icon/updater.png</file>
+        <file>icon/view-fullscreen.png</file>
+        <file>icon/document-new.png</file>
+        <file>icon/view-refresh.png</file>
+        <file>icon/exit.png</file>
+        <file>icon/bubble.png</file>
     </qresource>
     <qresource prefix="/wellcome">
         <file>resource/wellcome.html</file>

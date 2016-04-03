@@ -13,8 +13,8 @@ Item {
         cellWidth: width/3
         cellHeight: cellWidth * 0.618
         anchors.fill: parent
-        anchors.leftMargin: 6; anchors.rightMargin: 6
-        anchors.topMargin: 6; anchors.bottomMargin: 6
+        anchors.leftMargin: 12; anchors.rightMargin: 12
+        anchors.topMargin: 42; anchors.bottomMargin: 12
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
         highlightFollowsCurrentItem: true

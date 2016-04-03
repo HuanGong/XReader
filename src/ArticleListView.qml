@@ -19,17 +19,17 @@ Item {
 
         Rectangle {
             id: xreader_title
-            z: 2; height: 48
+            z: 2; height: 64
             color: "#f69331"
             anchors.top: parent.top
             Layout.fillWidth: true; Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
             Image {
                 id: img_back
-                width: 32; height: 32
+                width: 24; height: 24
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left; anchors.leftMargin: 4
-                source: "qrc:/image/icon/app.png"
+                source: "qrc:/image/icon/exit.png"; mirror: true
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -41,11 +41,11 @@ Item {
 
             Image {
                 id: img_reload
-                width: 32; height: 32
+                width: 24; height: 24
                 visible: !busyIndicator.running
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right; anchors.rightMargin: 4
-                source: "qrc:/image/icon/refresh_list.png"
+                source: "qrc:/image/icon/view-refresh.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -112,7 +112,7 @@ Item {
                     anchors.rightMargin: 2
                     anchors.bottomMargin: 2
                     Item {
-                        height: 18;//2*(height - 4)/3
+                        height: 18;
                         anchors.top: parent.top;
                         anchors.left: parent.left; anchors.leftMargin: 2
                         anchors.right: parent.right; anchors.rightMargin: 2
@@ -121,7 +121,7 @@ Item {
                             id: rss_text
                             elide: Text.ElideRight
                             anchors.fill: parent
-                            font.pointSize: 10
+                            font.pointSize: 12
                             text: { return "<b>" + title + "</b>"; }
                         }
                     }
@@ -133,7 +133,7 @@ Item {
                             id: pub_date
                             anchors.bottom: parent.bottom
                             anchors.right: parent.right; anchors.rightMargin: 2
-                            font.pointSize: 9
+                            font.pointSize: 10
                             text: pubDate
                         }
                     }
