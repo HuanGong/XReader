@@ -7,6 +7,7 @@ CONFIG += c++11
 SOURCES += main.cpp \
     src/xreadercontext.cpp
 
+include(./thirdparty/QZXing/QZXing.pri)
 RESOURCES += qml.qrc
 
 RC_FILE = XReader.rc

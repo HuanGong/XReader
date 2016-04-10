@@ -18,7 +18,7 @@ function backToFeedManagerView() {
 function openApplistView() {
     var appListComponent = Qt.createComponent("qrc:/src/ApplistView.qml");
     if (appListComponent.status === Component.Ready) {
-        var applistview = appListComponent.createObject(main_window, {});
+        var applistview = appListComponent.createObject(conten_view, {});
         applistview.sigOpenApplication.connect(openApplication);
     } else {
         console.log("conmentnet not ready"+ component.errorString())

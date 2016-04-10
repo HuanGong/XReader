@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import "feedstorage.js" as FeedsDb
@@ -6,6 +7,8 @@ import "feedstorage.js" as FeedsDb
 Item {
     signal sigChanelSelected(var model_instance)
     signal sigShowAddFeedView(var arg1)
+    property real dpi: Screen.pixelDensity.toFixed(2)
+
 
     id: feedManagerView
 
@@ -19,19 +22,23 @@ Item {
             Layout.fillHeight: false
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter //| Qt.AlignTop
-            Button {
+            Image {
                 id: bt_add_feed
-                anchors.centerIn: parent
-                text: "Add Feed"
-                onClicked: {
-                    sigShowAddFeedView(null);
+                width: 32; height: 32;
+                anchors.centerIn: parent;
+                source: "qrc:/image/icon/document-new.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        sigShowAddFeedView(null);
+                    }
                 }
             }
         }
 
         GridView {
             id: grid_chanel_view
-            cellHeight: 64
+            cellHeight: cellWidth/2
             cellWidth: grid_chanel_view.width / 3
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -59,12 +66,10 @@ Item {
 
                     Text {
                         id: feed_title
-                        //width: parent.width - 4
                         elide: Text.ElideRight
-                        //anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                        font.pointSize: 12
+                        font.pointSize: 6*dpi
                         text: model.name
                         onTextChanged: {
                             console.log("some case cause the text changed:",text)

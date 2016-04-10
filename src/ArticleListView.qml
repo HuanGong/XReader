@@ -2,12 +2,14 @@ import QtQuick 2.0
 import QtQuick.XmlListModel 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
+import QtQuick.Window 2.0
 
 
 Item {
     signal backToMainPage()
     signal articleClicked(var model_instance)
     property alias status: rssModel.status
+    property real dpi: Screen.pixelDensity.toFixed(2)
 
     id: article_list
 
@@ -68,7 +70,7 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            //highlightFollowsCurrentItem: false
+            highlightFollowsCurrentItem: true
             focus: true
 
             model: XmlListModel {
@@ -101,39 +103,67 @@ Item {
             }
 
             delegate: Item {
-                width: parent.width; height: 36
+                width: parent.width; height: 14*dpi
                 Rectangle {
                     radius: 4
                     opacity: 0.8
-                    //color: "#87CEEB"
                     anchors.fill: parent
                     anchors.topMargin: 2
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
                     anchors.bottomMargin: 2
                     Item {
-                        height: 18;
+                        height: parent.height*2/3;
                         anchors.top: parent.top;
                         anchors.left: parent.left; anchors.leftMargin: 2
                         anchors.right: parent.right; anchors.rightMargin: 2
-                        Layout.fillWidth: true
+                        Layout.fillWidth: true; clip: true;
                         Text {
                             id: rss_text
-                            elide: Text.ElideRight
-                            anchors.fill: parent
-                            font.pointSize: 12
+                            clip:true;
+                            //elide: Text.ElideRight
+                            //anchors.fill: parent;
+                            font.pointSize: 4*dpi;
+                            verticalAlignment: Text.AlignVCenter
                             text: { return "<b>" + title + "</b>"; }
+                            NumberAnimation {
+                                id:animText
+                                target: rss_text
+                                property: "x"
+                                duration: 5000
+                                from: 0
+                                to: {
+                                    if (parent.width - rss_text.contentWidth < 0)
+                                        return parent.width - rss_text.contentWidth - 4*dpi;
+                                    else
+                                        return 0;
+                                }
+                                running: false
+                                easing.type: Easing.OutCubic
+                                onStopped: {
+                                    if (article_list_view.currentIndex != index) {
+                                        to = 0;
+                                    } else {
+                                        if (parent.width - rss_text.contentWidth < 0)
+                                            to = parent.width - rss_text.contentWidth - 4*dpi;
+                                        else
+                                            to = 0;
+                                    }
+                                    animText.start();
+                                }
+                            }
                         }
                     }
                     Item {
-                        height: 14
+                        height: parent.height/3;
                         anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         Text {
                             id: pub_date
                             anchors.bottom: parent.bottom
                             anchors.right: parent.right; anchors.rightMargin: 2
-                            font.pointSize: 10
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: 3*dpi;
                             text: pubDate
                         }
                     }
@@ -141,8 +171,15 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            article_list_view.currentIndex = index;
-                            article_list.articleClicked(model)
+                            console.log(rss_text.text.length, rss_text.width);
+                            if (article_list_view.currentIndex != index) {
+                                article_list_view.currentIndex = index;
+                                animText.start();
+                            } else {
+                                article_list_view.currentIndex = index;
+                                article_list.articleClicked(model)
+                            }
+
                         }
                     }
                 }
@@ -155,11 +192,7 @@ Item {
                 id: highlightBar
                 Rectangle {
                     id: higlight_rect
-                    //width: article_list_view.width;
                     color: "#F4A460"
-                    //x: article_list_view.currentItem.x;
-                    //y: article_list_view.currentItem.y;
-                    //Behavior on y { SpringAnimation { spring: 3; damping: 0.2 } }
                 }
             }
 

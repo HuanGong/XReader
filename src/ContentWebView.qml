@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
+//import QQRCode 1.0
 
 WebEngineView {
     property alias weburl: web_view.url
@@ -38,6 +39,8 @@ WebEngineView {
         anchors.centerIn: parent
 
     }
+
+
 
     Slider {
         id: zoom_size

@@ -3,19 +3,23 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.2
-
-import "qrc:/src/XReaderWindow.js" as XReader
+import QtQuick.Window 2.0
 
 import "src"
+import "qrc:/src/XReaderWindow.js" as XReader
+
+
 
 ApplicationWindow {
     id: main_window
     visible: true
-    width: 1280
-    height: 720
+    width: 400*dpi
+    height: 220*dpi
     minimumHeight : 480
-    minimumWidth : 640
+    minimumWidth : 800
     title: qsTr("XReader")
+
+    property real dpi: Screen.pixelDensity.toFixed(2)
 
     menuBar: XMenu {
         id:main_menu
@@ -27,11 +31,11 @@ ApplicationWindow {
 
         Item {
             id: side_bar
-            width: 280
+            width: 100*dpi
             visible: true
             Layout.fillHeight: true
-            Layout.maximumWidth: 300
-            Layout.minimumWidth: 240
+            Layout.maximumWidth: 160*dpi
+            Layout.minimumWidth: 80*dpi
 
             StackView {
                 id: stack_view
@@ -67,7 +71,12 @@ ApplicationWindow {
                     }
                 }
             }
+            Component.onCompleted: {
+                console.log("in 720p: dpi is:", dpi)
+            }
         }
+
+
 
         Item {
             id: conten_view

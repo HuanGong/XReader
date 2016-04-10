@@ -15,6 +15,9 @@
         <file>src/ApplistView.qml</file>
         <file>src/SubAppManager.js</file>
         <file>src/ContentWebView.qml</file>
+        <file>src/snack/QRToolsView.qml</file>
+        <file>src/snack/qqr.js</file>
+        <file>src/snack/QRCode.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>
@@ -31,6 +34,7 @@
         <file>icon/view-refresh.png</file>
         <file>icon/exit.png</file>
         <file>icon/bubble.png</file>
+        <file>icon/qrcode.png</file>
     </qresource>
     <qresource prefix="/wellcome">
         <file>resource/wellcome.html</file>

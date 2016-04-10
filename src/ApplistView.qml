@@ -1,10 +1,13 @@
 import QtQuick 2.5
+import QtQuick.Window 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.4
 
 Item {
     signal sigCloseApplistView();
     signal sigOpenApplication(var app_name, var url);
+
+    property real dpi: Screen.pixelDensity.toFixed(2)
 
     id: applist
     anchors.fill: parent
@@ -15,13 +18,13 @@ Item {
     }
     Rectangle {
         anchors.fill: parent
-        id: overlay
-        color: "#000000"
-        opacity: 0.6
+        id: overlay;
+        color: "#000000"; opacity: 0.6
         MouseArea {
             anchors.fill: parent
             onWheel: {}
             onClicked: {
+                console.log("overlay be clicked")
                 applist.destroy();
             }
         }
@@ -29,14 +32,17 @@ Item {
 
     // This rectangle is the actual applistview
     Rectangle {
-        id: app_contaner
+        id: app_contaner;
 
-        radius: 8; //color: "green"
+        radius: 8;
         anchors.fill: parent
-        anchors.leftMargin: 96; anchors.rightMargin: 96;
-        anchors.topMargin: 64; anchors.bottomMargin: 72
+        anchors.leftMargin: 128; anchors.rightMargin: 128;
+        anchors.topMargin: 96; anchors.bottomMargin: 72
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+        MouseArea {
+            anchors.fill: parent; onClicked: {console.log("pos 3 be clicked")
+        }}
 
         Text {
             id: tag_title
@@ -47,19 +53,19 @@ Item {
         }
 
         GridView {
-            id: grid_view
-            cellWidth: 100; cellHeight: 128
-
+            id: grid_view; focus: true;
+            cellWidth: width/4; cellHeight: cellWidth
             anchors.top: tag_title.bottom; anchors.topMargin: 24;
             anchors.left: parent.left; anchors.leftMargin: 32;
             anchors.right: parent.right; anchors.rightMargin: 32;
             Layout.fillHeight: true; Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            //highlightFollowsCurrentItem: true
-            focus: true
+            highlightFollowsCurrentItem: true
+
             model: ListModel {
                 id: app_list;
                 ListElement { name: "Bing 壁纸"; Appurl: "qrc:/src/snack/XExplorer.qml"; image: "qrc:/image/icon/app.png"}
+                ListElement { name: "二维码工具"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/qrcode.png"}
             }
             delegate: Item {
                 id: app_item
@@ -67,23 +73,27 @@ Item {
                 height: grid_view.cellHeight
                 Image {
                     id: app_icon
-                    width: 92; height: 92;
-                    anchors.top: parent.top; anchors.topMargin: 4;
+                    width: grid_view.cellWidth*12/16; height: width;
+                    anchors.top: parent.top; anchors.topMargin: width*1/16;
                     anchors.horizontalCenter: parent.horizontalCenter
                     source: image
                 }
                 Text {
                     id: app_name
-                    font.pointSize: 12
-                    elide: Text.ElideRight; wrapMode: Text.WordWrap
+                    elide: Text.ElideRight;
+                    wrapMode: Text.WordWrap;
+                    horizontalAlignment: Text.AlignHCenter;
+                    verticalAlignment: Text.AlignVCenter;
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: app_icon.bottom; anchors.topMargin: 4
+                    anchors.top: app_icon.bottom; anchors.topMargin: 0
+                    font.pointSize: grid_view.cellWidth*2/16;
                     text: name
                 }
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.RightButton | Qt.LeftButton
                     onClicked: {
+                        console.log("fuck delegate item be clicked")
                         if (grid_view.currentIndex === index) {
                             sigOpenApplication(name, Appurl);
                             applist.destroy();
@@ -95,18 +105,7 @@ Item {
             }
 
             highlight: highlight
-            Component {
-                id: highlight
-                Rectangle {
-                    id: focused_feed_bg
-                    color: "#f69331"; radius: 5
-                }
-            }
-
-
-            Component.onCompleted: {
-
-            }
+            Component {id: highlight;Rectangle{color: "#f69331"; radius: 8}}
         }
 
     }
@@ -118,10 +117,6 @@ Item {
         console.log("applist view going to die, feel free")
     }
 }
-
-
-
-
 
 /*
 Item {
