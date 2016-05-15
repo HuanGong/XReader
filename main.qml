@@ -13,10 +13,10 @@ import "qrc:/src/XReaderWindow.js" as XReader
 ApplicationWindow {
     id: main_window
     visible: true
-    width: 400*dpi
-    height: 220*dpi
-    minimumHeight : 480
-    minimumWidth : 800
+    width: minimumWidth
+    height: minimumHeight
+    minimumHeight : Screen.height*2/3
+    minimumWidth : Screen.width*2/3
     title: qsTr("XReader")
 
     property real dpi: Screen.pixelDensity.toFixed(2)
@@ -34,8 +34,8 @@ ApplicationWindow {
             width: 100*dpi
             visible: true
             Layout.fillHeight: true
-            Layout.maximumWidth: 160*dpi
-            Layout.minimumWidth: 80*dpi
+            Layout.maximumWidth: 140*dpi
+            Layout.minimumWidth: 100*dpi
 
             StackView {
                 id: stack_view
@@ -44,7 +44,6 @@ ApplicationWindow {
                 initialItem: FeedManagerView{
                     id: chanel_page
                     onSigChanelSelected: {
-                        //article_list_view.model =  model_instance.feed
                         var article_list_view = article_list_component.createObject(stack_view);
                         article_list_view.setFeed(model_instance.feed)
                         article_list_view.articleClicked.connect(XReader.loadSelectedArticle);

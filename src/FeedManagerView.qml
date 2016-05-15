@@ -69,7 +69,7 @@ Item {
                         elide: Text.ElideRight
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                        font.pointSize: 6*dpi
+                        font.pointSize: 4*dpi
                         text: model.name
                         onTextChanged: {
                             console.log("some case cause the text changed:",text)

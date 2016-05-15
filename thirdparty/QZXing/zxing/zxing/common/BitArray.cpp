@@ -199,7 +199,7 @@ void BitArray::ensureCapacity(int size)
     {
         ArrayRef<int> newBits = makeArray(size);
         //memcpy(bits, newBits->, bits->size());
-        for (size_t i=0; i<bits->size(); ++i) {
+        for (int i=0; i < bits->size(); ++i) {
             newBits[i] = bits[i];
         }
         bits = newBits;
@@ -221,7 +221,7 @@ void BitArray::xor_(const BitArray& other)
 
 void BitArray::toBytes(int bitOffset, std::vector<char>& array, int offset, int numBytes) const
 {
-    if(array.size() < (numBytes + offset))
+    if((int)array.size() < (numBytes + offset))
         array.resize(numBytes + offset);
 
     for (int i = 0; i < numBytes; i++) {
