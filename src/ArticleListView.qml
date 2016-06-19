@@ -97,13 +97,13 @@ Item {
                     }
                 }
             }
-
+/*
             add: Transition {
                 NumberAnimation { properties: "x,y"; from: 0; duration: 800 }
-            }
+            }*/
 
             delegate: Item {
-                width: parent.width; height: 14*dpi
+                width: article_list_view.width; height: 14*dpi
                 Rectangle {
                     radius: 4
                     opacity: 0.8

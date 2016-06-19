@@ -124,9 +124,14 @@ Item {
                      else
                         0;
                 }
-                width: 16; height: 16
+                width: 22; height: 22
                 color: "lightblue"
                 visible: false
+                Image {
+                    id: _img_delete
+                    anchors.fill: parent
+                    source: "qrc:/image/icon/delete.png"
+                }
                 MouseArea {
                     id: delete_mousearea
                     anchors.fill: delete_feed
@@ -205,7 +210,7 @@ Item {
         console.log(JSON.stringify(datatoberemove))
         console.log("2 current item index is:", grid_chanel_view.currentIndex)
         feed_data.remove(grid_chanel_view.currentIndex)
-        //FeedsDb.removeData(datatoberemove)
+        FeedsDb.removeData(datatoberemove)
         delete_feed.visible = false
     }
 
