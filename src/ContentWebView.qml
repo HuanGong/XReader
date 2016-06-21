@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
+import "readability.js" as Reader
 //import QQRCode 1.0
 
 WebEngineView {
@@ -30,6 +31,12 @@ WebEngineView {
         web_view.settings.javascriptCanOpenWindows = false;
         web_view.settings.spatialNavigationEnabled = false;
         zoomFactor: zoom_size.value
+
+
+        var reader = new Reader.Readability();
+        var url = "https://segmentfault.com/a/1190000000602050"
+        reader.readabilityGet(url, onGetReadabilityData, onReadabilityGetErr)
+
     }
 
     BusyIndicator{
@@ -80,4 +87,13 @@ WebEngineView {
     function loadUrl(url) {web_view.url = url;}
 
     function loadHtml(html, baseUrl) {web_view.loadHtml(html, baseUrl);}
+
+    function onGetReadabilityData(res, data) {
+        console.log("get get get get get ......")
+    }
+
+    function onReadabilityGetErr(res, status) {
+        console.log("get get get get get failed......")
+    }
+
 }
