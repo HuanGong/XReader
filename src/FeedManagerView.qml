@@ -9,7 +9,6 @@ Item {
     signal sigShowAddFeedView(var arg1)
     property real dpi: Screen.pixelDensity.toFixed(2)
 
-
     id: feedManagerView
 
     ColumnLayout {

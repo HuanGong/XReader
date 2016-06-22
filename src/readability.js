@@ -31,31 +31,36 @@ function Readability() {
         var xhr = new XMLHttpRequest;
         var parseurl = parseBase + url + endArgv;
         console.log(parseurl);
-        xhr.open("GET", url);
-        xhr.onreadystatechange = function (xhr, success, failure){
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status ===  200){
-                    if (success !== null && success !== undefined)
-                    {
-                        var result = xhr.responseText;
-                        try{
-                            success(result, JSON.parse(result));
-                            console.log("xxxxxxxxxxxxxxxx")
-                        }catch(e){
-                            success(result, {});
-                        }
-                    }
-                }
-                else{
-                    if (failure !== null && failure !== undefined)
-                        failure(xhr.responseText, xhr.status);
-                }
-            }
+        xhr.open("GET", parseurl);
+        xhr.onreadystatechange = function () {
+            responseHandler(xhr, success, failure);
+
         }
         xhr.send();
     };
 
-
+    function responseHandler(xhr, success, failure){
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status ===  200){
+                if (success !== null && success !== undefined)
+                {
+                    var result = xhr.responseText;
+                    try{
+                        console.log("get from readability ok")
+                        success(result, JSON.parse(result));
+                    }catch(e){
+                        console.log("get from readability failed")
+                        success(result, {});
+                    }
+                }
+            }
+            else{
+                console.log("request failed")
+                if (failure !== null && failure !== undefined)
+                    failure(xhr.responseText, xhr.status);
+            }
+        }
+    }
 
 }
 

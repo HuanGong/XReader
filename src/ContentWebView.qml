@@ -34,8 +34,8 @@ WebEngineView {
 
 
         var reader = new Reader.Readability();
-        var url = "https://segmentfault.com/a/1190000000602050"
-        reader.readabilityGet(url, onGetReadabilityData, onReadabilityGetErr)
+        var url = "http://www.jianshu.com/p/e9054cb333e8"
+        //reader.readabilityGet(url, onGetReadabilityData, onReadabilityGetErr)
 
     }
 
@@ -47,7 +47,21 @@ WebEngineView {
 
     }
 
-
+    Rectangle {
+        id: reader_mode
+        width: 32; height: width
+        radius: 16; visible: true;
+        anchors.top: parent.top; anchors.topMargin: 10;
+        anchors.right: parent.right; anchors.rightMargin: 120;
+        //anchors.centerIn: parent
+        color: "#f69331"; clip: true
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("reader mode fucked")
+            }
+        }
+    }
 
     Slider {
         id: zoom_size
@@ -86,10 +100,11 @@ WebEngineView {
 
     function loadUrl(url) {web_view.url = url;}
 
-    function loadHtml(html, baseUrl) {web_view.loadHtml(html, baseUrl);}
+    function loadFromHtmlString(html, baseUrl) {web_view.loadHtml(html, baseUrl);}
 
     function onGetReadabilityData(res, data) {
         console.log("get get get get get ......")
+        web_view.loadFromHtmlString(data.content, "https://segmentfault.com/a/1190000000602050")
     }
 
     function onReadabilityGetErr(res, status) {
