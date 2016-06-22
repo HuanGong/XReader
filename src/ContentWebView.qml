@@ -3,7 +3,6 @@ import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
 import "readability.js" as Reader
-//import QQRCode 1.0
 
 WebEngineView {
     property alias weburl: web_view.url
@@ -41,28 +40,87 @@ WebEngineView {
 
     BusyIndicator{
         id: busyIndicator
-        z: 2
-        running: true
+        z: 2; running: true
         anchors.centerIn: parent
-
     }
 
     Rectangle {
-        id: reader_mode
-        width: 32; height: width
-        radius: 16; visible: true;
-        anchors.top: parent.top; anchors.topMargin: 10;
-        anchors.right: parent.right; anchors.rightMargin: 120;
-        //anchors.centerIn: parent
+        z: 2
+        id: wv_lens
+        width: 128; height: 32
+        //opacity: 0.85; radius: 2;
+        anchors.top: parent.top; anchors.topMargin: 4;
+        anchors.right: parent.right; anchors.rightMargin: 4;
         color: "#f69331"; clip: true
-        MouseArea {
+        Rectangle {
+          id: zoom_in
+          width: 32; height: 32
+          anchors.left: parent.left
+          color: "#ff0000"
+          MouseArea {
+            anchors.fill: parent
+            onClicked: {
+              web_view.zoomFactor -= 0.1
+              console.log("reader mode fucked")
+            }
+          }
+        }
+        Rectangle {
+          id: zoom_out
+          width: 32; height: 32
+          anchors.left: zoom_in.right
+          color: "#00ff00"
+          MouseArea {
+            anchors.fill: parent
+            onClicked: {
+              web_view.zoomFactor += 0.1
+              console.log("reader mode fucked")
+            }
+          }
+        }
+        Rectangle {
+          id: reader
+          width: 32; height: 32
+          anchors.left: zoom_out.right
+          color: "#0000ff"
+          MouseArea {
             anchors.fill: parent
             onClicked: {
                 console.log("reader mode fucked")
             }
+          }
+        }
+        Rectangle {
+          id: fullscreen
+          width: 32; height: 32
+          anchors.left: reader.right
+          color: "#ffffff"
+            Image {
+                id: img_view_max
+                anchors.fill: parent
+                source: "qrc:/image/icon/view-fullscreen.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        side_bar.visible = !side_bar.visible;
+                        if (stack_view.visible === true) {
+                            img_view_max.source = "qrc:/image/icon/view-fullscreen.png"
+                        } else {
+                            img_view_max.source = "qrc:/image/icon/view-restore.png"
+                        }
+
+                    }
+                }
+            }
+          MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.log("reader mode fucked")
+            }
+          }
         }
     }
-
+/*
     Slider {
         id: zoom_size
         height: 72
@@ -81,6 +139,7 @@ WebEngineView {
             web_view.zoomFactor = value
         }
     }
+    */
     Timer {
         id: timer
         interval: 1000; running: false; repeat: false;
