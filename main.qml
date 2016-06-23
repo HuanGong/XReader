@@ -41,14 +41,11 @@ ApplicationWindow {
                 id: stack_view
                 anchors.fill: parent
 
-                initialItem: FeedManagerView{
+                initialItem: FeedManagerView {
                     id: chanel_page
                     onSigChanelSelected: {
-                        var article_list_view = article_list_component.createObject(stack_view);
-                        article_list_view.setFeed(model_instance.feed)
-                        article_list_view.articleClicked.connect(XReader.loadSelectedArticle);
-                        article_list_view.backToMainPage.connect(XReader.backToFeedManagerView);
-                        stack_view.push({item:article_list_view, destroyOnPop:true})
+                        //stackView.push({item: someItem, properties: {fgcolor: "red", bgcolor: "blue"}})
+                        stack_view.push({item: article_list_component, properties: {feedsource: model_instance.feed}})
                     }
 
                     onSigShowAddFeedView: {
@@ -59,15 +56,20 @@ ApplicationWindow {
                         } else {
                             console.log("conmentnet not ready"+ component.errorString())
                         }
-                    }
                 }
 
                 Component {
                     id: article_list_component
                     ArticleListView{
                         id: article_list_view
-                        anchors.fill: parent
+                        onBackToMainPage: {stack_view.pop();}
+                        onArticleClicked: {
+                            //console.log(model_instance.link, model_instance.content, model_instance)
+                            content_loader.item.weburl = model_instance.link
+                            side_bar.visible = false;
+                        }
                     }
+
                 }
             }
             Component.onCompleted: {
@@ -75,7 +77,7 @@ ApplicationWindow {
             }
         }
 
-
+}
 
         Item {
             id: conten_view
@@ -103,27 +105,8 @@ ApplicationWindow {
                     }
                 }
             }
-
-            Image {
-                id: img_view_max
-                width: 22; height: 22
-                anchors.top: parent.top;anchors.topMargin: 6
-                anchors.right: parent.right;anchors.rightMargin: 6
-                source: "qrc:/image/icon/view-fullscreen.png"
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        side_bar.visible = !side_bar.visible;
-                        if (stack_view.visible === true) {
-                            img_view_max.source = "qrc:/image/icon/view-fullscreen.png"
-                        } else {
-                            img_view_max.source = "qrc:/image/icon/view-restore.png"
-                        }
-
-                    }
-                }
-            }
         }
     }
 
 }
+

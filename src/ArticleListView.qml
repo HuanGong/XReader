@@ -8,21 +8,22 @@ import QtQuick.Window 2.0
 Item {
     signal backToMainPage()
     signal articleClicked(var model_instance)
+
     property alias status: rssModel.status
+    property alias feedsource: rssModel.source
+
     property real dpi: Screen.pixelDensity.toFixed(2)
 
     id: article_list
 
     objectName: qsTr("ArticleList")
-    anchors.fill: parent
     ColumnLayout {
         spacing: 0
         anchors.fill: parent
 
         Rectangle {
             id: xreader_title
-            z: 2; height: 64
-            color: "#f69331"
+            z: 2; height: 48; color: "#f69331"
             anchors.top: parent.top
             Layout.fillWidth: true; Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
@@ -82,23 +83,24 @@ Item {
                 XmlRole { name: "content"; query: "description/string()" }
 
                 onStatusChanged: {
-                    if (status !== XmlListModel.Ready && status !== XmlListModel.Error) {
+                    if (rssModel.status == XmlListModel.Loading) {
+                        console.log("is loading: progress:", rssModel.progress)
                         busyIndicator.running = true;
-                    } else {
+                    } else if (rssModel.status == XmlListModel.Ready) {
+                        console.log("The XML data has been loaded into the model")
+                        busyIndicator.running = false;
+                    } else if (rssModel.status == XmlListModel.Null) {
+                        console.log("No XML data has been set for this model.")
+                        busyIndicator.running = false;
+                    } else if (rssModel.status == XmlListModel.Error) {
+                        console.log("xmlistmodel error:", rssModel.errorString())
                         busyIndicator.running = false;
                     }
                 }
 
-                onSourceChanged: {
-                    if (source !== "") {
-                        busyIndicator.running = true
-                    } else {
-                        busyIndicator.running = false
-                    }
-                }
             }
-/*
-            add: Transition {
+
+            /*add: Transition {
                 NumberAnimation { properties: "x,y"; from: 0; duration: 800 }
             }*/
 

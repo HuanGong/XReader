@@ -12,8 +12,11 @@ function initDatabase() {
         tx.executeSql('CREATE TABLE IF NOT EXISTS FeedDB(name TEXT, feedurl TEXT)');
     });
     //clearDataBase();
-    //insertData({"name":"Oschina", "feed": "http://www.oschina.net/news/rss?show=industry"})
-    //insertData({"name":"Baidu", "feed": "mm"})
+    //insertData({"name":"imcn", "feed": "http://imcn.me/feed"})
+    //insertData({"name":"oschina", "feed": "http://www.oschina.net/news/rss"})
+    //insertData({"name":"swifter", "feed": "http://swifter.tips/feed.xml"})
+    //insertData({"name":"swiftGG", "feed": "http://swift.gg/atom.xml"})
+
 }
 
 function readData() {

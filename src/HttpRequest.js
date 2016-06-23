@@ -31,15 +31,15 @@ function handleResponse(xhr, success, failure){
                 var result = xhr.responseText;
                 try{
                     success(result, JSON.parse(result));
-                    console.log("xxxxxxxxxxxxxxxx")
                 }catch(e){
                     success(result, {});
                 }
             }
         }
         else{
-            if (failure !== null && failure !== undefined)
+            if (failure !== null && failure !== undefined) {
                 failure(xhr.responseText, xhr.status);
+            }
         }
     }
 }

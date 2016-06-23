@@ -26,16 +26,10 @@ WebEngineView {
     }
 
     Component.onCompleted: {
-        web_view.settings.pluginsEnabled = true;
+        web_view.settings.pluginsEnabled = false;
+        web_view.settings.javascriptEnabled = false;
         web_view.settings.javascriptCanOpenWindows = false;
         web_view.settings.spatialNavigationEnabled = false;
-        zoomFactor: zoom_size.value
-
-
-        var reader = new Reader.Readability();
-        var url = "http://www.jianshu.com/p/e9054cb333e8"
-        //reader.readabilityGet(url, onGetReadabilityData, onReadabilityGetErr)
-
     }
 
     BusyIndicator{
@@ -45,101 +39,85 @@ WebEngineView {
     }
 
     Rectangle {
-        z: 2
-        id: wv_lens
-        width: 128; height: 32
-        //opacity: 0.85; radius: 2;
+        property real itemsize: 16
+
+        id: wv_lens; z: 2
+
+        width: itemsize; height: itemsize*4;
+        opacity: 0.85; radius: 2; clip: true;
         anchors.top: parent.top; anchors.topMargin: 4;
         anchors.right: parent.right; anchors.rightMargin: 4;
-        color: "#f69331"; clip: true
-        Rectangle {
-          id: zoom_in
-          width: 32; height: 32
-          anchors.left: parent.left
-          color: "#ff0000"
-          MouseArea {
-            anchors.fill: parent
-            onClicked: {
-              web_view.zoomFactor -= 0.1
-              console.log("reader mode fucked")
-            }
-          }
-        }
-        Rectangle {
-          id: zoom_out
-          width: 32; height: 32
-          anchors.left: zoom_in.right
-          color: "#00ff00"
-          MouseArea {
-            anchors.fill: parent
-            onClicked: {
-              web_view.zoomFactor += 0.1
-              console.log("reader mode fucked")
-            }
-          }
-        }
-        Rectangle {
-          id: reader
-          width: 32; height: 32
-          anchors.left: zoom_out.right
-          color: "#0000ff"
-          MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log("reader mode fucked")
-            }
-          }
-        }
-        Rectangle {
-          id: fullscreen
-          width: 32; height: 32
-          anchors.left: reader.right
-          color: "#ffffff"
-            Image {
-                id: img_view_max
-                anchors.fill: parent
-                source: "qrc:/image/icon/view-fullscreen.png"
-                MouseArea {
+
+        Column {
+            spacing: 1
+            Rectangle {
+                id: fullscreen; radius: 2;
+                width: wv_lens.itemsize; height: width
+                color: "#ffffff"
+                Image {
+                    id: img_view_max
                     anchors.fill: parent
-                    onClicked: {
+                    source: "qrc:/image/icon/view-fullscreen.png"
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {/*
                         side_bar.visible = !side_bar.visible;
                         if (stack_view.visible === true) {
                             img_view_max.source = "qrc:/image/icon/view-fullscreen.png"
                         } else {
                             img_view_max.source = "qrc:/image/icon/view-restore.png"
-                        }
+                        }*/
 
+                        }
+                    }
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("reader mode fucked")
                     }
                 }
             }
-          MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log("reader mode fucked")
+            Rectangle {
+                id: reader; radius: 2;
+                width: wv_lens.itemsize; height: width
+                //anchors.left: zoom_out.right
+                color: "#0000ff"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("reader mode fucked")
+                        var reader = new Reader.Readability();
+                        reader.readabilityGet(web_view.url, onGetReadabilityData, onReadabilityGetErr)
+                    }
+                }
             }
-          }
+            Rectangle {
+                id: zoom_in; radius: 2;
+                width: wv_lens.itemsize; height: width
+                color: "#ff0000"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        web_view.zoomFactor -= 0.1
+                    }
+                }
+            }
+            Rectangle {
+                id: zoom_out; radius: 2;
+                width: wv_lens.itemsize; height: width
+                color: "#00ff00"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        web_view.zoomFactor += 0.1
+                        console.log("reader mode fucked")
+                    }
+                }
+            }
         }
     }
-/*
-    Slider {
-        id: zoom_size
-        height: 72
-        z: 2
-        maximumValue: 2.0
-        minimumValue: 0.5
-        orientation: Qt.Vertical
-        anchors.right: parent.right
-        anchors.rightMargin: 6
-        anchors.top: parent.top
-        anchors.topMargin: 32
-        updateValueWhileDragging: true
-        value: 1.0
-        stepSize: 0.1
-        onValueChanged: {
-            web_view.zoomFactor = value
-        }
-    }
-    */
+
     Timer {
         id: timer
         interval: 1000; running: false; repeat: false;
