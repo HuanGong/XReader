@@ -5,6 +5,8 @@ import QtQuick.Controls 1.4
 import "readability.js" as Reader
 
 WebEngineView {
+    signal wv_fullview_clicked();
+    //signal articleClicked(var model_instance)
     property alias weburl: web_view.url
     property alias zoomfactor: web_view.zoomFactor
 
@@ -12,7 +14,7 @@ WebEngineView {
     visible: true
     objectName: "webview"
     anchors.fill: parent
-    url: "qrc:/wellcome/resource/wellcome.html"
+    url: "https://huangong.gitbooks.io/art_as_programer/content/program_project/the_x-th_project_xreader.html"
     zoomFactor: 1
     onLoadProgressChanged: {
         if (loadProgress > 79) {
@@ -42,60 +44,40 @@ WebEngineView {
         property real itemsize: 16
 
         id: wv_lens; z: 2
-
         width: itemsize; height: itemsize*4;
         opacity: 0.85; radius: 2; clip: true;
         anchors.top: parent.top; anchors.topMargin: 4;
-        anchors.right: parent.right; anchors.rightMargin: 4;
+        anchors.right: parent.right; anchors.rightMargin: 12;
 
         Column {
             spacing: 1
-            Rectangle {
-                id: fullscreen; radius: 2;
+            Image {
+                id: img_view_max;
                 width: wv_lens.itemsize; height: width
-                color: "#ffffff"
-                Image {
-                    id: img_view_max
-                    anchors.fill: parent
-                    source: "qrc:/image/icon/view-fullscreen.png"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {/*
-                        side_bar.visible = !side_bar.visible;
-                        if (stack_view.visible === true) {
-                            img_view_max.source = "qrc:/image/icon/view-fullscreen.png"
-                        } else {
-                            img_view_max.source = "qrc:/image/icon/view-restore.png"
-                        }*/
-
-                        }
-                    }
-                }
+                source: "qrc:/image/icon/view-fullscreen.png"
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        console.log("reader mode fucked")
-                    }
+                    onClicked: {wv_fullview_clicked();}
                 }
             }
-            Rectangle {
-                id: reader; radius: 2;
-                width: wv_lens.itemsize; height: width
-                //anchors.left: zoom_out.right
-                color: "#0000ff"
+            Image {
+                id: reader;width: wv_lens.itemsize; height: width
+                source: "qrc:/image/icon/ReadMode.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         console.log("reader mode fucked")
                         var reader = new Reader.Readability();
-                        reader.readabilityGet(web_view.url, onGetReadabilityData, onReadabilityGetErr)
+                        reader.readabilityGet(web_view.url,
+                                              onGetReadabilityData,
+                                              onReadabilityGetErr)
                     }
                 }
             }
-            Rectangle {
-                id: zoom_in; radius: 2;
+            Image {
+                id: zoom_in;
                 width: wv_lens.itemsize; height: width
-                color: "#ff0000"
+                source: "qrc:/image/icon/smaller.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -103,10 +85,10 @@ WebEngineView {
                     }
                 }
             }
-            Rectangle {
-                id: zoom_out; radius: 2;
+            Image {
+                id: zoom_out;
                 width: wv_lens.itemsize; height: width
-                color: "#00ff00"
+                source: "qrc:/image/icon/lager.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -133,6 +115,11 @@ WebEngineView {
         }
     }
 
+    function sidebarVisibilityChanged(visible) {
+        img_view_max.source = visible ? "qrc:/image/icon/view-fullscreen.png"
+                                      : "qrc:/image/icon/view-restore.png"
+    }
+
     function iswebview() {return true;}
 
     function loadUrl(url) {web_view.url = url;}
@@ -141,11 +128,11 @@ WebEngineView {
 
     function onGetReadabilityData(res, data) {
         console.log("get get get get get ......")
-        web_view.loadFromHtmlString(data.content, "https://segmentfault.com/a/1190000000602050")
+        web_view.loadFromHtmlString(data.content, web_view.url)
     }
 
     function onReadabilityGetErr(res, status) {
-        console.log("get get get get get failed......")
+        console.log("readability parse error......")
     }
 
 }

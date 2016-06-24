@@ -23,6 +23,7 @@ ApplicationWindow {
 
     menuBar: XMenu {
         id:main_menu
+        onSig_toggle_sidebar: {side_bar.visible = !side_bar.visible;}
     }
 
     SplitView {
@@ -56,40 +57,48 @@ ApplicationWindow {
                         } else {
                             console.log("conmentnet not ready"+ component.errorString())
                         }
-                }
-
-                Component {
-                    id: article_list_component
-                    ArticleListView{
-                        id: article_list_view
-                        onBackToMainPage: {stack_view.pop();}
-                        onArticleClicked: {
-                            //console.log(model_instance.link, model_instance.content, model_instance)
-                            content_loader.item.weburl = model_instance.link
-                            side_bar.visible = false;
-                        }
                     }
 
+                    Component {
+                        id: article_list_component
+                        ArticleListView{
+                            id: article_list_view
+                            onBackToMainPage: {stack_view.pop();}
+                            onArticleClicked: {
+                                //side_bar.visible = false;
+                                content_loader.item.weburl = model_instance.link
+                            }
+                        }
+
+                    }
                 }
-            }
-            Component.onCompleted: {
-                console.log("in 720p: dpi is:", dpi)
+                Component.onCompleted: {
+                    console.log("in 720p: dpi is:", dpi)
+                }
             }
         }
 
-}
-
         Item {
             id: conten_view
-            anchors.top: parent.top
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            Layout.fillHeight: true;
             Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
 
             Loader { //the main content for display
                 id: content_loader
                 anchors.fill: parent
                 source: "qrc:/src/ContentWebView.qml"
+
+            }
+
+            Connections {
+                id: loader_sig_connecter
+                target: content_loader.item; ignoreUnknownSignals: true;
+                onWv_fullview_clicked: {
+                    side_bar.visible = !side_bar.visible;
+                    content_loader.item.sidebarVisibilityChanged(side_bar.visible)
+                    console.log("onWv_request_max_view trigled")
+                }
             }
 
             Image {

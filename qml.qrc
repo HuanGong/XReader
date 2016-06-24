@@ -37,6 +37,9 @@
         <file>icon/bubble.png</file>
         <file>icon/qrcode.png</file>
         <file>icon/delete.png</file>
+        <file>icon/ReadMode.png</file>
+        <file>icon/lager.png</file>
+        <file>icon/smaller.png</file>
     </qresource>
     <qresource prefix="/wellcome">
         <file>resource/wellcome.html</file>
