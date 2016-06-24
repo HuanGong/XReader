@@ -41,7 +41,7 @@ WebEngineView {
     }
 
     Rectangle {
-        property real itemsize: 16
+        property real itemsize: 6*dpi
 
         id: wv_lens; z: 2
         width: itemsize; height: itemsize*4;

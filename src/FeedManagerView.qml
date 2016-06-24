@@ -99,7 +99,7 @@ Item {
     Component {
         id: delegate_component
         Item {
-            id: chanel_delegate
+            id: chanel_delegate; clip: true;
             property var grid_view: GridView.view
             property var is_currentItem: GridView.isCurrentItem
             width: grid_view.cellWidth; height: grid_view.cellHeight;
@@ -112,7 +112,7 @@ Item {
                     elide: Text.ElideRight
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                    font.pointSize: 4*dpi
+                    font.pointSize: 12
                     text: model.name
                 }
 

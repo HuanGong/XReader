@@ -23,7 +23,8 @@ ApplicationWindow {
 
     menuBar: XMenu {
         id:main_menu
-        onSig_toggle_sidebar: {side_bar.visible = !side_bar.visible;}
+        //__contentItem.transform: Scale {yScale: 0}
+        onSig_toggle_sidebar: {side_bar.visible ? animation_fadeout.start(): animation_fadein.start();}
     }
 
     SplitView {
@@ -32,11 +33,11 @@ ApplicationWindow {
 
         Item {
             id: side_bar
-            width: 100*dpi
+            width: 90*dpi
             visible: true
             Layout.fillHeight: true
-            Layout.maximumWidth: 140*dpi
-            Layout.minimumWidth: 100*dpi
+            //Layout.maximumWidth: 140*dpi
+            //Layout.minimumWidth: 100*dpi
 
             StackView {
                 id: stack_view
@@ -76,6 +77,16 @@ ApplicationWindow {
                     console.log("in 720p: dpi is:", dpi)
                 }
             }
+            PropertyAnimation {id:animation_fadein; target: side_bar; properties: "width"; to: 100*dpi; easing.type: Easing.Linear; duration: 200;
+                onStarted: {
+                    side_bar.visible = true;
+                }
+            }
+            PropertyAnimation {id:animation_fadeout; target: side_bar; properties: "width"; to: 0; easing.type: Easing.Linear; duration: 200;
+                onStopped: {
+                    side_bar.visible = false;
+                }
+            }
         }
 
         Item {
@@ -95,8 +106,9 @@ ApplicationWindow {
                 id: loader_sig_connecter
                 target: content_loader.item; ignoreUnknownSignals: true;
                 onWv_fullview_clicked: {
-                    side_bar.visible = !side_bar.visible;
-                    content_loader.item.sidebarVisibilityChanged(side_bar.visible)
+                    //side_bar.visible = !side_bar.visible;
+                    side_bar.visible ? animation_fadeout.start(): animation_fadein.start();
+                    //content_loader.item.sidebarVisibilityChanged(side_bar.visible)
                     console.log("onWv_request_max_view trigled")
                 }
             }
