@@ -64,8 +64,9 @@ Item {
 
             model: ListModel {
                 id: app_list;
-                ListElement { name: "Bing 壁纸"; Appurl: "qrc:/src/snack/XExplorer.qml"; image: "qrc:/image/icon/app.png"}
-                ListElement { name: "二维码工具"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/qrcode.png"}
+                ListElement { name: "Bing 壁纸"; Appurl: "qrc:/src/snack/XExplorer.qml"; image: "qrc:/image/icon/app-gallery.svg"}
+                ListElement { name: "二维码工具"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/app-qrtools.png"}
+                ListElement { name: "youtubedl"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/app-youtubedl.svg"}
             }
             delegate: Item {
                 id: app_item

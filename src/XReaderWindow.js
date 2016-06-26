@@ -29,3 +29,10 @@ function openApplication(name, appurl) {
     console.log(name, appurl);
     content_loader.source = appurl;
 }
+
+
+
+function toggle_sidebar() {
+    side_bar.visible ? animation_fadeout.start(): animation_fadein.start();
+    //main_window.sidebar;
+}

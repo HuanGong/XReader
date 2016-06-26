@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg3336" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" style="enable-background:new" xmlns="http://www.w3.org/2000/svg" height="512" viewBox="0 0 512 512" width="512" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <metadata id="metadata3341">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer3">
+  <path id="rect4158" style="color:#000000;enable-background:accumulate;fill:#e7e7df" d="m0 0v512h512v-512z"/>
+  <rect id="rect4276" style="color:#000000;enable-background:accumulate;fill:#ea5420" transform="scale(1,-1)" height="48" width="352" y="-136" x="80"/>
+  <path id="path4235" d="m272 184.15v-16h160v16z" style="color:#000000;fill-opacity:.99739;enable-background:accumulate;fill:#847d6a"/>
+  <path id="path4631" style="color:#000000;fill-opacity:.99739;enable-background:accumulate;fill:#847d6a" d="m272 216.15v-16h80v16z"/>
+  <path id="path4633" d="m272 248v-15.85h160v15.85z" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795"/>
+  <path id="path4635" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795" d="m80 360v-16h352v16z"/>
+  <path id="path4725" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795" d="m272 280v-15.85h160v15.85z"/>
+  <path id="path4727" d="m272 312v-15.854h80v15.85z" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795"/>
+  <path id="path4729" d="m80 392v-16h352v16z" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795"/>
+  <path id="path4731" style="opacity:.5;color:#000000;fill-opacity:.99608;enable-background:accumulate;fill:#aea795" d="m80 424v-16h352v16z"/>
+  <path id="path4299" style="opacity:.3;color:#000000;enable-background:accumulate;fill:#fff" d="m512 315-199.82 197h17.067 182.75l0.00002-182.58z"/>
+  <path id="rect4315" style="opacity:.5;color:#000000;enable-background:accumulate;fill:#aea795" d="m80 168.15v143.85h160v-143.85zm155.56 3.2689h0.003v137.32h-0.003z"/>
+  <path id="path4237" style="fill:#e7e7df;enable-background:new" d="m104.08 280.96q0-6.1556 4.3649-10.52 4.3649-4.3649 10.52-4.3649 6.1556 0 10.52 4.3649 4.3649 4.3649 4.3649 10.52 0 6.2675-4.3649 10.576-4.3649 4.3089-10.52 4.3089-6.1556 0-10.52-4.3649-4.36-4.36-4.36-10.52zm0-37.493v-21.38q20.034 0 37.046 9.9049t26.917 26.917q9.9049 17.012 9.9049 37.046h-21.489q0-21.712-15.333-37.046-15.45-15.44-37.05-15.44zm0-37.941v-21.49q22.72 0 43.425 8.8976t35.702 23.895 23.895 35.702q8.9 20.7 8.9 43.42h-21.489q0-18.355-7.1629-35.143t-19.306-28.875-28.875-19.25q-16.732-7.1629-35.087-7.1629z"/>
+  <path id="rect4238" style="opacity:.2;color:#000000;enable-background:accumulate;fill:#fff" d="m256 0v512h256v-512z"/>
+ </g>
+</svg>

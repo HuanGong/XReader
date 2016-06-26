@@ -4,6 +4,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import QtQuick.Window 2.0
 
+import "qrc:/src/HttpRequest.js" as Httpobj
+
 
 Item {
     signal backToMainPage()
@@ -32,7 +34,7 @@ Item {
                 width: 24; height: 24
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left; anchors.leftMargin: 4
-                source: "qrc:/image/icon/exit.png"; mirror: true
+                source: "qrc:/image/icon/view-back.svg"; mirror: true
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -48,7 +50,7 @@ Item {
                 visible: !busyIndicator.running
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right; anchors.rightMargin: 4
-                source: "qrc:/image/icon/view-refresh.png"
+                source: "qrc:/image/icon/view-reload.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -76,6 +78,7 @@ Item {
 
             model: XmlListModel {
                 id: rssModel
+                //source: "http://www.oschina.net/news/rss"
                 query: "/rss/channel/item"
                 XmlRole { name: "link"; query: "link/string()" }
                 XmlRole { name: "title"; query: "title/string()" }
@@ -98,6 +101,17 @@ Item {
                     }
                 }
 
+                onSourceChanged: {
+                    console.log(rssModel.source)
+                    Httpobj.get(rssModel.source,
+                             function(rs, jsonobj){
+                                rssModel.xml = rs;
+                                 console.log("\n===========\n",rs, "\n============\n")
+                             },
+                             function (err, status) {
+                                console.log(err, status)
+                             } )
+                }
             }
 
             /*add: Transition {

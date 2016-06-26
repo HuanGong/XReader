@@ -7,7 +7,7 @@ import "feedstorage.js" as FeedsDb
 Item {
     signal sigChanelSelected(var model_instance)
     signal sigShowAddFeedView(var arg1)
-    property real dpi: Screen.pixelDensity.toFixed(2)
+    property real dpi: Screen.pixelDensity.toFixed(2)//Screen.pixelDensity;
 
     id: feedManagerView
 
@@ -16,14 +16,14 @@ Item {
 
         Rectangle {
             id: xreader_title
-            z: 2;height: 48; color: "#f69331"
+            z: 2; height: 48; color: "#f69331"
             Layout.fillHeight: false; Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter //| Qt.AlignTop
             Image {
                 id: bt_add_feed
                 width: 32; height: 32;
                 anchors.centerIn: parent;
-                source: "qrc:/image/icon/document-new.png"
+                source: "qrc:/image/icon/edit-add.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -46,11 +46,11 @@ Item {
             delegate: delegate_component
 
             Rectangle {
-                id: delete_feed
-                radius: 8
+                id: delete_feed; radius: 8; color: "#f69331"
+                width: 16; height: 16; visible: false
                 x: { if(grid_chanel_view.currentItem !== null)
                         grid_chanel_view.currentItem.x - grid_chanel_view.contentX;
-                     else
+                    else
                         0;
                 }
                 y: { if(grid_chanel_view.currentItem !== null)
@@ -58,13 +58,9 @@ Item {
                      else
                         0;
                 }
-                width: 22; height: 22
-                color: "lightblue"
-                visible: false
                 Image {
-                    id: _img_delete
                     anchors.fill: parent
-                    source: "qrc:/image/icon/delete.png"
+                    source: "qrc:/image/icon/edit-clear.svg"
                 }
                 MouseArea {
                     id: delete_mousearea
@@ -81,7 +77,7 @@ Item {
     Image {
         id: img_go_top
         width: 24; height: 24
-        anchors.bottom: parent.bottom; anchors.bottomMargin: 64
+        anchors.bottom: parent.bottom; anchors.bottomMargin: 32
         anchors.right: parent.right; anchors.rightMargin: 12
 
         source: "qrc:/image/icon/go-top.png"
@@ -103,16 +99,19 @@ Item {
             property var grid_view: GridView.view
             property var is_currentItem: GridView.isCurrentItem
             width: grid_view.cellWidth; height: grid_view.cellHeight;
+            visible: {grid_view.width > 128;}
             Rectangle {
                 radius: 4; opacity: 0.8; anchors.fill: parent
                 anchors.topMargin: 2; anchors.leftMargin: 2
                 anchors.rightMargin: 2; anchors.bottomMargin: 4
                 color: is_currentItem ? colorCode : "lightgray";
+                clip: true;
                 Text {
                     elide: Text.ElideRight
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                    font.pointSize: 12
+                    //font.pointSize: 4*dpi
+                    font.pixelSize: 5*dpi
                     text: model.name
                 }
 

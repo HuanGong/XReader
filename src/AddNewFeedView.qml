@@ -12,9 +12,9 @@ Item {
     anchors.fill: parent
 
     // Add a simple animation to fade in the popup, let the opacity go from 0 to 1 in 400ms
-    PropertyAnimation { target: dialogComponent; property: "opacity";
-        duration: 800; from: 0; to: 1;
-        easing.type: Easing.InOutQuad ; running: true
+    PropertyAnimation {
+        target: dialogComponent; property: "opacity"; duration: 800;
+        from: 0; to: 1; easing.type: Easing.InOutQuad ; running: true
     }
 
     // This rectange is the a overlay to partially show the parent through it
@@ -63,15 +63,13 @@ Item {
                 color: "#f69331"
 
                 Text {
-                    id: tag_feedurl
-                    height: 24
-                    text: qsTr("Feed URL:")
-                    clip: true
+                    id: tag_feedurl; height: 24
+                    text: qsTr("Feed URL:"); clip: true
                     anchors.left: parent.left; anchors.leftMargin: 2
                     anchors.verticalCenter: parent.verticalCenter
 
                     //font.bold: true
-                    font.pointSize: height/2
+                    font.pixelSize: height/2
                     textFormat: Text.PlainText
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -93,16 +91,12 @@ Item {
 
                     TextInput {
                         id: feed_url
-                        clip: true
-                        width: 200
-                        height: 24
-                        anchors.fill: parent
-                        verticalAlignment: Text.AlignVCenter
+                        clip: true; selectByMouse: true;
+                        width: 200; height: 24
+                        anchors.fill: parent; verticalAlignment: Text.AlignVCenter
                         //horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("http://")
-                        font.bold: false
-                        font.pointSize: 10
-                        cursorVisible: false
+                        text: qsTr("http://"); font.bold: false
+                        font.pointSize: 10; cursorVisible: false
                         onFocusChanged: {
                             if (focus === false && text !== qsTr("http://")) {
                                 console.log("Log::::::onFocusChanged")
@@ -172,9 +166,8 @@ Item {
 
                     TextInput {
                         id: feed_name
-                        clip: true
-                        anchors.fill: parent
-                        verticalAlignment: Text.AlignVCenter
+                        clip: true; selectByMouse: true;
+                        anchors.fill: parent; verticalAlignment: Text.AlignVCenter
                         //horizontalAlignment: Text.AlignHCenter
 
                         text: qsTr("")

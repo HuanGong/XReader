@@ -10,7 +10,7 @@ WebEngineView {
     property alias weburl: web_view.url
     property alias zoomfactor: web_view.zoomFactor
 
-    id: web_view
+    id: web_view;
     visible: true
     objectName: "webview"
     anchors.fill: parent
@@ -40,21 +40,21 @@ WebEngineView {
         anchors.centerIn: parent
     }
 
-    Rectangle {
-        property real itemsize: 6*dpi
+    Item {
+        property real itemsize: 8*dpi
 
         id: wv_lens; z: 2
         width: itemsize; height: itemsize*4;
-        opacity: 0.85; radius: 2; clip: true;
+        opacity: 0.85; clip: true;
         anchors.top: parent.top; anchors.topMargin: 4;
-        anchors.right: parent.right; anchors.rightMargin: 12;
+        anchors.right: parent.right; anchors.rightMargin: 16;
 
         Column {
             spacing: 1
             Image {
                 id: img_view_max;
                 width: wv_lens.itemsize; height: width
-                source: "qrc:/image/icon/view-fullscreen.png"
+                source: "qrc:/image/icon/view-fullscreen.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {wv_fullview_clicked();}
@@ -62,7 +62,7 @@ WebEngineView {
             }
             Image {
                 id: reader;width: wv_lens.itemsize; height: width
-                source: "qrc:/image/icon/ReadMode.png"
+                source: "qrc:/image/icon/mode_reader.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -77,7 +77,7 @@ WebEngineView {
             Image {
                 id: zoom_in;
                 width: wv_lens.itemsize; height: width
-                source: "qrc:/image/icon/smaller.png"
+                source: "qrc:/image/icon/zoom-out.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -88,7 +88,7 @@ WebEngineView {
             Image {
                 id: zoom_out;
                 width: wv_lens.itemsize; height: width
-                source: "qrc:/image/icon/lager.png"
+                source: "qrc:/image/icon/zoom-in.svg"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -116,8 +116,8 @@ WebEngineView {
     }
 
     function sidebarVisibilityChanged(visible) {
-        img_view_max.source = visible ? "qrc:/image/icon/view-fullscreen.png"
-                                      : "qrc:/image/icon/view-restore.png"
+        img_view_max.source = visible ? "qrc:/image/icon/view-fullscreen.svg"
+                                      : "qrc:/image/icon/view-restore.svg"
     }
 
     function iswebview() {return true;}
