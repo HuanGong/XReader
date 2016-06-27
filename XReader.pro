@@ -5,7 +5,9 @@ QT += qml quick webengine
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    src/xreadercontext.cpp
+    src/xreadercontext.cpp \
+    src/plauncher.cpp \
+    src/plaunchercontroller.cpp
 
 include(./thirdparty/QZXing/QZXing.pri)
 RESOURCES += qml.qrc
@@ -21,4 +23,6 @@ include(deployment.pri)
 DISTFILES +=
 
 HEADERS += \
-    src/xreadercontext.h
+    src/xreadercontext.h \
+    src/plauncher.h \
+    src/plaunchercontroller.h

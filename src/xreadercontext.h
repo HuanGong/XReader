@@ -5,6 +5,8 @@
 #include <QObject>
 //#include <qwebenginesettings.h>
 
+class Plauncher;
+class PlauncherController;
 
 class XReaderContext
 {
@@ -13,6 +15,7 @@ public:
     virtual ~XReaderContext();
 
 private:
+    PlauncherController* PlController;
     //this pointer not need delete
     //QWebEngineSettings *default_websetting;
 };
