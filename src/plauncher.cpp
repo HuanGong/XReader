@@ -5,18 +5,24 @@
 Plauncher::Plauncher() :
     m_process(NULL) {
     m_process = new QProcess(this);
+
+    //connect(m_process, &QProcess::finished, this, &Plauncher::OnProcessExit);
+    connect(m_process, SIGNAL(finished(int , QProcess::ExitStatus )), this, SLOT(OnProcessExit(int , QProcess::ExitStatus )));
+    connect(m_process, &QProcess::errorOccurred, this, &Plauncher::OnProcesserrorOccurred);
     printf("\nPlauncher::Plauncher\n");
 }
 
 Plauncher::~Plauncher() {
     printf("\nPlauncher::~Plauncher\n");
+    delete m_process;
 }
 
 void Plauncher::OnlaunchApp(const QString &program, const QStringList &argv) {
     std::cout << program.toStdString().c_str() << std::endl;
-    QStringList arg;
+
 
     connect(m_process,SIGNAL(readyRead()),this, SLOT(OnReadyRead()));
+    connect(m_process, &QProcess::readyRead, this, &Plauncher::OnReadyRead);
 
     m_process->start(program, argv);
     m_process->waitForFinished(-1);
@@ -30,4 +36,38 @@ void Plauncher::OnReadyRead() {
     emit stdoutHasData(output);
 }
 
+void Plauncher::OnPrelaunchProcess() {
+
+}
+
+//void Plauncher::OnProcessExit(int exitcode) {
+
+void Plauncher::OnProcessExit(int exitcode, QProcess::ExitStatus exitStatus) {
+  QThread::currentThread()->quit(); //emit quit to end this thread
+}
+
+void Plauncher::OnProcesserrorOccurred(QProcess::ProcessError error) {
+  switch(error) {
+    case QProcess::ProcessError::FailedToStart:
+
+      //break;
+    case QProcess::ProcessError::Crashed:
+
+      //break;
+    case QProcess::ProcessError::Timedout:
+
+      //break;
+    case QProcess::ProcessError::ReadError:
+
+      //break;
+    case QProcess::ProcessError::WriteError:
+
+      //break;
+    case QProcess::ProcessError::UnknownError:
+      QThread::currentThread()->quit();
+      break;
+    default:
+      break;
+  }
+}
 

@@ -12,16 +12,16 @@ class PlauncherController : public QObject
 public:
     explicit PlauncherController(QObject *parent = 0);
 
+    void launchProcessWithArg(const QString &file,const QStringList &args);
 
 signals:
-    void launchWithArg(QString file, QStringList args);
+    void launchWithArg(const QString &file,const QStringList &args);
 
 public slots:
     /* connect to signal recieve stdout output*/
     void OnStdoutHasData(QString &output);
 
 private:
-    QThread m_wthread;
 };
 
 

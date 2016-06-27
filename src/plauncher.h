@@ -21,8 +21,15 @@ public slots:
     /* triggled by controller, run a program with argv list */
     void OnlaunchApp(const QString &program, const QStringList &argv);
 
+    void OnPrelaunchProcess();
+
+    void OnProcessExit(int exitcode, QProcess::ExitStatus exitStatus);
+    //void OnProcessExit(int exitcode);
+    void OnProcesserrorOccurred(QProcess::ProcessError error);
+
 signals:
     void stdoutHasData(QString &bytes);
+    //finished(int exitCode, QProcess::ExitStatus exitStatus)
 
 private:
     QProcess* m_process;
