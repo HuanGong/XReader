@@ -10,13 +10,17 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QZXing::registerQMLTypes();
-    //app.setWindowIcon(QIcon("qrc:/image/icon/app.png"));
-    new XReaderContext();
-
     QtWebEngine::initialize();
 
     QQmlApplicationEngine engine;
+
+    XReaderContext* context = new XReaderContext(&engine);
+    context->Init();
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
+    std::cout << engine.rootObjects().count() << std::endl;
+
+    //start messageloop
     return app.exec();
 }

@@ -1,13 +1,15 @@
 #include "plaunchercontroller.h"
 #include "plauncher.h"
+#include <QDebug>
 
 PlauncherController::PlauncherController(QObject *parent) : QObject(parent)
 {
 
 }
 
-void PlauncherController::OnStdoutHasData(QString &output) {
-
+void PlauncherController::OnStdoutHasData(QString output) {
+    printf("\nPlauncherController::OnStdoutHasData\n");
+    //qDebug() << output;
 }
 
 void PlauncherController::launchProcessWithArg(const QString &file,const QStringList &args) {
@@ -19,6 +21,8 @@ void PlauncherController::launchProcessWithArg(const QString &file,const QString
   connect(thread, &QThread::started, execlauncher, &Plauncher::OnPrelaunchProcess);
   connect(this, &PlauncherController::launchWithArg, execlauncher, &Plauncher::OnlaunchApp);
 
+  connect(execlauncher, &Plauncher::stdoutHasData, this, &PlauncherController::OnStdoutHasData);
+
   //connect(execlauncher, &Plauncher::processExit, thread, SLOT(quit()) );
   //automatically delete thread and task object when work is done:
   connect( thread, SIGNAL(finished()), execlauncher, SLOT(deleteLater()) );
@@ -26,6 +30,5 @@ void PlauncherController::launchProcessWithArg(const QString &file,const QString
 
   thread->start(); //call Plauncher::PrelaunchProcess()
   emit launchWithArg(file, args);
-
 }
 

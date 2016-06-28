@@ -19,16 +19,18 @@ ApplicationWindow {
     minimumWidth : Screen.width*2/3
     title: qsTr("XReader")
 
+
     property alias sidebar: side_bar
     property real dpi: Screen.pixelDensity.toFixed(2)
 
     menuBar: XMenu {
         id:main_menu
-        //__contentItem.transform: Scale {yScale: 0}
         onSig_toggle_sidebar: {XReader.toggle_sidebar()}
     }
 
     Item {
+        id: aaaaa
+        signal sig_a(var a);
         anchors.fill: parent;
         SplitView {
             id: splitView
@@ -116,7 +118,6 @@ ApplicationWindow {
                     id: loader_sig_connecter
                     target: content_loader.item; ignoreUnknownSignals: true;
                     onWv_fullview_clicked: {
-                        //side_bar.visible = !side_bar.visible;
                         XReader.toggle_sidebar();
 
                         console.log("onWv_request_max_view trigled")
@@ -145,10 +146,19 @@ ApplicationWindow {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left; rotation: {side_bar.visible ? 180 : 0}
             source: "qrc:/image/icon/expand.svg"
-            MouseArea {anchors.fill: parent; onClicked: {XReader.toggle_sidebar()}}
+            MouseArea {anchors.fill: parent;
+                onClicked: {
+                    //aaaaa.sig_a();
+                    XReaderContext.slot_a("gonghuan");
+                    XReader.toggle_sidebar()
+                }
+            }
         }
 
+        Component.onCompleted: {
+            aaaaa.sig_a.connect(XReaderContext.slot_a);
+            console.log(XReaderContext, XReaderContext.slot_a)
+        }
     }
-
 }
 

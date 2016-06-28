@@ -19,7 +19,7 @@ signals:
 
 public slots:
     /* connect to signal recieve stdout output*/
-    void OnStdoutHasData(QString &output);
+    void OnStdoutHasData(QString output);
 
 private:
 };

@@ -3,19 +3,30 @@
 
 #include <iostream>
 #include <QObject>
+#include <QDebug>
 //#include <qwebenginesettings.h>
 
 class Plauncher;
 class PlauncherController;
+class QQmlApplicationEngine;
 
-class XReaderContext
+class XReaderContext: public QObject
 {
+    Q_OBJECT
 public:
-    XReaderContext();
+    XReaderContext(QQmlApplicationEngine* engine,QObject* parent=0);
     virtual ~XReaderContext();
+
+    bool Init();
+
+public slots:
+    void slot_a(QString arg);
 
 private:
     PlauncherController* PlController;
+
+    QQmlApplicationEngine* m_engine;
+
     //this pointer not need delete
     //QWebEngineSettings *default_websetting;
 };

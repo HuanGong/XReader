@@ -24,12 +24,10 @@ public slots:
     void OnPrelaunchProcess();
 
     void OnProcessExit(int exitcode, QProcess::ExitStatus exitStatus);
-    //void OnProcessExit(int exitcode);
     void OnProcesserrorOccurred(QProcess::ProcessError error);
 
 signals:
-    void stdoutHasData(QString &bytes);
-    //finished(int exitCode, QProcess::ExitStatus exitStatus)
+    void stdoutHasData(QString bytes);
 
 private:
     QProcess* m_process;
