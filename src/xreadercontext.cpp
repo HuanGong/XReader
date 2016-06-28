@@ -42,6 +42,7 @@ XReaderContext::~XReaderContext() {
 
 
 bool XReaderContext::Init() {
+  //export XReaderContext to qml
     QString objproperty = "XReaderContext";
     QQmlContext* qml_context = m_engine->rootContext();
     qml_context->setContextProperty(objproperty,this);

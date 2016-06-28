@@ -156,6 +156,7 @@ ApplicationWindow {
         }
 
         Component.onCompleted: {
+         //XReaderContext is export from c++ side
             aaaaa.sig_a.connect(XReaderContext.slot_a);
             console.log(XReaderContext, XReaderContext.slot_a)
         }
