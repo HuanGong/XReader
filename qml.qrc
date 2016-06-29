@@ -19,6 +19,8 @@
         <file>src/snack/qqr.js</file>
         <file>src/snack/QRCode.qml</file>
         <file>src/readability.js</file>
+        <file>src/XLogin.qml</file>
+        <file>src/snack/youtubedl.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>
@@ -43,6 +45,7 @@
         <file>icon/app-xreader.svg</file>
         <file>icon/app-youtubedl.svg</file>
         <file>icon/app-qrtools.png</file>
+        <file>resource/icon/QQloginFront.jpg</file>
     </qresource>
     <qresource prefix="/wellcome">
         <file>resource/wellcome.html</file>
