@@ -6,21 +6,21 @@
         <file>src/ArticleListView.qml</file>
         <file>src/AddNewFeedView.qml</file>
         <file>src/FeedManagerView.qml</file>
-        <file>src/HttpRequest.js</file>
-        <file>src/feedstorage.js</file>
         <file>src/snack/XExplorer.qml</file>
         <file>src/BusyingIndicator.qml</file>
-        <file>src/XReaderWindow.js</file>
         <file>src/XSettingsView.qml</file>
         <file>src/ApplistView.qml</file>
-        <file>src/SubAppManager.js</file>
         <file>src/ContentWebView.qml</file>
         <file>src/snack/QRToolsView.qml</file>
         <file>src/snack/qqr.js</file>
         <file>src/snack/QRCode.qml</file>
-        <file>src/readability.js</file>
         <file>src/XLogin.qml</file>
         <file>src/snack/youtubedl.qml</file>
+        <file>resource/del_ad_script.js</file>
+        <file>src/js/feedstorage.js</file>
+        <file>src/js/HttpRequest.js</file>
+        <file>src/js/readability.js</file>
+        <file>src/js/XReaderWindow.js</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>

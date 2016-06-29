@@ -6,7 +6,7 @@ import QtWebEngine 1.2
 import QtQuick.Window 2.0
 
 import "src"
-import "qrc:/src/XReaderWindow.js" as XReader
+import "src/js/XReaderWindow.js" as XReader
 
 
 
@@ -89,7 +89,7 @@ ApplicationWindow {
                     to: 100*dpi; easing.type: Easing.Linear; duration: 300;
                     onStarted: {
                         side_bar.visible = true;
-                        content_loader.item.sidebarVisibilityChanged(side_bar.visible)
+                        //content_loader.item.sidebarVisibilityChanged(side_bar.visible)
                     }
                 }
                 PropertyAnimation {
@@ -97,7 +97,7 @@ ApplicationWindow {
                     to: 0; easing.type: Easing.InOutQuad; duration: 200;
                     onStopped: {
                         side_bar.visible = false;
-                        content_loader.item.sidebarVisibilityChanged(side_bar.visible)
+                        //content_loader.item.sidebarVisibilityChanged(side_bar.visible)
                     }
                 }
             }
@@ -151,7 +151,7 @@ ApplicationWindow {
             MouseArea {anchors.fill: parent;
                 onClicked: {
                     //aaaaa.sig_a();
-                    XReaderContext.slot_a("gonghuan");
+                    //XReaderContext.slot_a("gonghuan");
                     XReader.toggle_sidebar()
                 }
             }
@@ -159,7 +159,7 @@ ApplicationWindow {
 
         Component.onCompleted: {
          //XReaderContext is export from c++ side
-            aaaaa.sig_a.connect(XReaderContext.slot_a);
+            //aaaaa.sig_a.connect(XReaderContext.slot_a);
             console.log(XReaderContext, XReaderContext.slot_a)
         }
     }

@@ -4,7 +4,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import QtQuick.Window 2.0
 
-import "qrc:/src/HttpRequest.js" as Httpobj
+import "qrc:/src/js/HttpRequest.js" as Httpobj
 
 
 Item {

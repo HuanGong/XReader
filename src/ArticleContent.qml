@@ -1,7 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
-//import Qt.labs.controls 1.0
-//import Ubuntu.Components 1.1
 
 Item {
    id: article_content

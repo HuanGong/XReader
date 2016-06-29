@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
-import "feedstorage.js" as FeedsDb
+import "js/feedstorage.js" as FeedsDb
 
 Item {
     signal sigChanelSelected(var model_instance)

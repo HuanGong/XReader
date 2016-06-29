@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
-import "readability.js" as Reader
+import "js/readability.js" as Reader
 
 WebEngineView {
     signal wv_fullview_clicked();
