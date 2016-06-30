@@ -15,9 +15,11 @@ Item {
         }
     }
     Column {//行
-
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8;
         anchors.top: drop_area.bottom
         anchors.topMargin:  42; spacing: 8
+        move: Transition{ NumberAnimation {properties: "x,y"; duration: 1000}}
 
         Item {
             id: url_info
@@ -28,7 +30,7 @@ Item {
                 Row {
                     spacing: 2
                     Rectangle{
-                        id: tag_url_container;color: "#f69331";
+                        id: tag_url_container;color: "lightgray";
                         width: 48; height: 32; radius: 2;
                         Text {
                             id: tag_url;
@@ -41,7 +43,7 @@ Item {
                     Rectangle {
                         id: input_url_container;
                         anchors.verticalCenter: parent.verticalCenter;
-                        height: 32; clip: true; color: "#f69331"; radius: 2;
+                        height: 32; clip: true; color: "lightgray"; radius: 2;
                         width: url_info_container.width-tag_url_container.width
                         TextInput{
                             id: input_url;selectByMouse: true;clip: true;
@@ -62,7 +64,7 @@ Item {
             Rectangle {
                 id: save_file_container; anchors.fill: parent;
                 anchors.leftMargin: marginsize; anchors.rightMargin: marginsize;
-                clip: true; color: "#f69331"; radius: 2
+                clip: true; color: "lightgray"; radius: 2
                 Text {
                     id: save_as_file;
                     anchors.centerIn: parent
@@ -80,11 +82,11 @@ Item {
         }
         Item {
             id: network_info
-            width: youtubedlview.width; height: 32;
+            width: youtubedlview.width; height: 48;
             Rectangle {
                 id: networksetting_container; anchors.fill: parent;
                 anchors.leftMargin: marginsize; anchors.rightMargin: marginsize;
-                clip: true; color: "#f69331"; radius: 2
+                clip: true; color: "lightgray"; radius: 2
                 Text {
                     id: networksetting;
                     anchors.centerIn: parent
@@ -100,6 +102,21 @@ Item {
                 }
             }
         }
+
+        Item {
+            id: video_preview
+            width: youtubedlview.width; height: parent.height - y;
+
+            Rectangle {
+                anchors.fill: parent; radius: 4; color: "lightgray";
+                anchors.leftMargin: marginsize; anchors.rightMargin: marginsize;
+            }
+            MouseArea {
+                anchors.fill: parent
+                //onClicked: video_preview.visible = !video_preview.visible
+            }
+        }
+
     }
 
     FileDialog {

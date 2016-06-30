@@ -112,8 +112,8 @@ ApplicationWindow {
                     id: content_loader
                     //anchors.centerIn: parent
                     anchors.fill: parent
-                    source: "qrc:/src/snack/youtubedl.qml"
-                    //source: "qrc:/src/ContentWebView.qml"
+                    //source: "qrc:/src/snack/youtubedl.qml"
+                    source: "qrc:/src/ContentWebView.qml"
                 }
 
                 Connections {

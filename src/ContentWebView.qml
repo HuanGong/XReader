@@ -17,14 +17,49 @@ WebEngineView {
     url: "https://huangong.gitbooks.io/art_as_programer/content/program_project/the_x-th_project_xreader.html"
     zoomFactor: 1
     onLoadProgressChanged: {
-        if (loadProgress > 79) {
-            busyIndicator.running = false;
-            //scheduleZoom();
-        }
+        progress_bar.width = web_view.width*(loadProgress/100);
     }
     onLoadingChanged: {
         console.log("loading changed.....")
         busyIndicator.running = loading;
+        if (loading && progress_bar.visible == false) {
+            progress_bar.visible = true;
+        } else if (loading == false && loadProgress > 90) {
+            progress_bar.width = web_view.width;
+        }
+
+    }
+    Rectangle {
+        id: progress_bar; color: "#f69331";
+        anchors.top: parent.top; z: 2;
+        width: 0; height: 6; radius: 1;
+        PropertyAnimation {
+            id: progress_animation; duration: 500;
+            target: progress_bar;
+            property: "width";
+            onStopped: {
+                if (progress_bar.width == web_view.width) {
+                    progress_bar.width = 0;
+                    progress_bar.visible = false;
+                }
+            }
+        }
+        onWidthChanged: {
+            progress_animation.start();
+        }
+
+        /*
+        Behavior on width {
+            PropertyAnimation {
+                id: progress_animation; duration: 500;
+                onRunningChanged: {
+                    if(width == web_view.width && running == false) {
+                        progress_bar.visible = false;
+                        progress_bar.width = 0;
+                    }
+                }
+            }
+        }*/
     }
 
     Component.onCompleted: {
