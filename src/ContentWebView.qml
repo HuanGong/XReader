@@ -17,35 +17,56 @@ WebEngineView {
     url: "https://huangong.gitbooks.io/art_as_programer/content/program_project/the_x-th_project_xreader.html"
     zoomFactor: 1
     onLoadProgressChanged: {
-        progress_bar.width = web_view.width*(loadProgress/100);
-    }
-    onLoadingChanged: {
-        console.log("loading changed.....")
-        busyIndicator.running = loading;
-        if (loading && progress_bar.visible == false) {
-            progress_bar.visible = true;
-        } else if (loading == false && loadProgress > 90) {
-            progress_bar.width = web_view.width;
+        if (loadProgress - progress_bar.queue[progress_bar.queue.length-1] > 25) {
+            progress_bar.queue.push((loadProgress + progress_bar.queue[progress_bar.queue.length-1])/2)
+            progress_bar.queue.push(loadProgress)
+        } else if(loadProgress !== progress_bar.queue[progress_bar.queue.length-1]) {
+            progress_bar.queue.push(loadProgress)
         }
 
+        if(!progress_animation.running) {
+            progress_animation.start();
+        }
+        console.log(progress_bar.queue);
     }
+    onLoadingChanged: {
+        console.log("loading changed.....:", loading ? "loading" : "stoped")
+        //busyIndicator.running = loading;
+    }
+    onUrlChanged: {
+        if (progress_animation.running) {
+           progress_bar.queue = [];
+           progress_animation.stop();
+        }
+    }
+
     Rectangle {
         id: progress_bar; color: "#f69331";
+
+        property var queue: [];
         anchors.top: parent.top; z: 2;
         width: 0; height: 6; radius: 1;
-        PropertyAnimation {
-            id: progress_animation; duration: 500;
-            target: progress_bar;
-            property: "width";
+        //PropertyAnimation {
+        NumberAnimation {
+            id: progress_animation; properties: "width"; duration: 100;
+            target: progress_bar;// from: progress_bar.old; to: width
             onStopped: {
-                if (progress_bar.width == web_view.width) {
+                if(progress_bar.queue.length > 0) {
+                    from = progress_bar.width;
+                    to = progress_bar.queue.splice(0,1)[0]/100 * web_view.width;
+                    console.log("restart animation from:",from," to:", to)
+                    start();
+                } else if(web_view.width == progress_bar.width && !web_view.loading && progress_bar.queue.length == 0){
+                    console.log("set progress bar width to 0")
                     progress_bar.width = 0;
-                    progress_bar.visible = false;
                 }
             }
         }
         onWidthChanged: {
-            progress_animation.start();
+            //progress_animation.start();
+        }
+        Component.onCompleted: {
+
         }
 
         /*

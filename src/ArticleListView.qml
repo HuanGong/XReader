@@ -78,7 +78,6 @@ Item {
 
             model: XmlListModel {
                 id: rssModel
-                //source: "http://www.oschina.net/news/rss"
                 query: "/rss/channel/item"
                 XmlRole { name: "link"; query: "link/string()" }
                 XmlRole { name: "title"; query: "title/string()" }
@@ -106,7 +105,7 @@ Item {
                     Httpobj.get(rssModel.source,
                              function(rs, jsonobj){
                                 rssModel.xml = rs;
-                                 console.log("\n===========\n",rs, "\n============\n")
+                                 //console.log("\n===========\n",rs, "\n============\n")
                              },
                              function (err, status) {
                                 console.log(err, status)
@@ -137,11 +136,9 @@ Item {
                         Text {
                             id: rss_text
                             clip:true;
-                            //elide: Text.ElideRight
-                            //anchors.fill: parent;
-                            font.pointSize: 4*dpi;
+                            font.pointSize: 14;
                             verticalAlignment: Text.AlignVCenter
-                            text: { return "<b>" + title + "</b>"; }
+                            text: { title }
                             NumberAnimation {
                                 id:animText
                                 target: rss_text
@@ -179,7 +176,7 @@ Item {
                             anchors.bottom: parent.bottom
                             anchors.right: parent.right; anchors.rightMargin: 2
                             verticalAlignment: Text.AlignVCenter
-                            font.pixelSize: 3*dpi;
+                            font.pointSize: 10;
                             text: pubDate
                         }
                     }
@@ -225,6 +222,7 @@ Item {
     }
     Component.onCompleted: {
         console.log("a new article_list_view created")
+        busyIndicator.running = true;
     }
 
     function setFeed(feed_source) {
