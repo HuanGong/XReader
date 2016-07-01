@@ -6,7 +6,6 @@ import "js/readability.js" as Reader
 
 WebEngineView {
     signal wv_fullview_clicked();
-    //signal articleClicked(var model_instance)
     property alias weburl: web_view.url
     property alias zoomfactor: web_view.zoomFactor
 
@@ -14,73 +13,60 @@ WebEngineView {
     visible: true
     objectName: "webview"
     anchors.fill: parent
-    url: "https://huangong.gitbooks.io/art_as_programer/content/program_project/the_x-th_project_xreader.html"
+    url: "qrc:/wellcome/resource/wellcome.html"
     zoomFactor: 1
     onLoadProgressChanged: {
+        progress_bar.visible = true;
+        if (loadProgress < progress_bar.queue[progress_bar.queue.length-1] ||
+            loadProgress === progress_bar.queue[progress_bar.queue.length-1] ) {
+            return;
+        }
         if (loadProgress - progress_bar.queue[progress_bar.queue.length-1] > 25) {
             progress_bar.queue.push((loadProgress + progress_bar.queue[progress_bar.queue.length-1])/2)
             progress_bar.queue.push(loadProgress)
-        } else if(loadProgress !== progress_bar.queue[progress_bar.queue.length-1]) {
+        } else {
             progress_bar.queue.push(loadProgress)
         }
 
         if(!progress_animation.running) {
             progress_animation.start();
         }
-        console.log(progress_bar.queue);
     }
-    onLoadingChanged: {
-        console.log("loading changed.....:", loading ? "loading" : "stoped")
-        //busyIndicator.running = loading;
-    }
-    onUrlChanged: {
-        if (progress_animation.running) {
-           progress_bar.queue = [];
-           progress_animation.stop();
-        }
-    }
+    onUrlChanged: {progress_bar.reset();}
 
     Rectangle {
         id: progress_bar; color: "#f69331";
 
         property var queue: [];
         anchors.top: parent.top; z: 2;
-        width: 0; height: 6; radius: 1;
-        //PropertyAnimation {
+        width: 0; height: 4;
         NumberAnimation {
-            id: progress_animation; properties: "width"; duration: 100;
-            target: progress_bar;// from: progress_bar.old; to: width
+            id: progress_animation; properties: "width"; duration: 300;
+            target: progress_bar;
             onStopped: {
-                if(progress_bar.queue.length > 0) {
+                if (progress_bar.queue.length > 0) {
                     from = progress_bar.width;
                     to = progress_bar.queue.splice(0,1)[0]/100 * web_view.width;
                     console.log("restart animation from:",from," to:", to)
                     start();
-                } else if(web_view.width == progress_bar.width && !web_view.loading && progress_bar.queue.length == 0){
-                    console.log("set progress bar width to 0")
-                    progress_bar.width = 0;
+                }
+                if (progress_bar.width == web_view.width) {
+                    delay_timer.start();
                 }
             }
         }
-        onWidthChanged: {
-            //progress_animation.start();
+        Timer {
+            id: delay_timer
+            interval: 1000; repeat: false;
+            onTriggered: {progress_bar.reset();}
         }
-        Component.onCompleted: {
-
+        function reset() {
+            progress_bar.visible = false;
+            progress_bar.width = 0;
+            progress_bar.queue = [];
+            progress_animation.to = 0;
+            progress_animation.from = 0;
         }
-
-        /*
-        Behavior on width {
-            PropertyAnimation {
-                id: progress_animation; duration: 500;
-                onRunningChanged: {
-                    if(width == web_view.width && running == false) {
-                        progress_bar.visible = false;
-                        progress_bar.width = 0;
-                    }
-                }
-            }
-        }*/
     }
 
     Component.onCompleted: {
@@ -92,7 +78,7 @@ WebEngineView {
 
     BusyIndicator{
         id: busyIndicator
-        z: 2; running: true
+        z: 2; running: false
         anchors.centerIn: parent
     }
 

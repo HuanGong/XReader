@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Window 2.0
 
 import "qrc:/src/js/HttpRequest.js" as Httpobj
+//import "qrc:/src/js/Utils.qml" as Utils
 
 
 Item {
@@ -136,7 +137,7 @@ Item {
                         Text {
                             id: rss_text
                             clip:true;
-                            font.pointSize: 14;
+                            font.pointSize: Utils.gu(14);
                             verticalAlignment: Text.AlignVCenter
                             text: { title }
                             NumberAnimation {
@@ -176,7 +177,7 @@ Item {
                             anchors.bottom: parent.bottom
                             anchors.right: parent.right; anchors.rightMargin: 2
                             verticalAlignment: Text.AlignVCenter
-                            font.pointSize: 10;
+                            font.pointSize: Utils.gu(10);
                             text: pubDate
                         }
                     }

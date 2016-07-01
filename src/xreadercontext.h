@@ -18,6 +18,10 @@ public:
     virtual ~XReaderContext();
 
     bool Init();
+    Q_INVOKABLE int gu() {
+        printf("pass in size:%d, return scale szie:%f", 10, m_dpi_ratio*10);
+        return m_dpi_ratio*10;
+    }
 
 public slots:
     void slot_a(QString arg);
@@ -26,6 +30,9 @@ private:
     PlauncherController* PlController;
 
     QQmlApplicationEngine* m_engine;
+
+    float m_dpi_ratio;
+
 
     //this pointer not need delete
     //QWebEngineSettings *default_websetting;

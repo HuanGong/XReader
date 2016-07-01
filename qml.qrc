@@ -21,6 +21,7 @@
         <file>src/js/HttpRequest.js</file>
         <file>src/js/readability.js</file>
         <file>src/js/XReaderWindow.js</file>
+        <file>src/js/Utils.js</file>
     </qresource>
     <qresource prefix="/image">
         <file>icon/go-top.png</file>

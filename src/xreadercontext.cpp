@@ -5,20 +5,20 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include <QScreen>
+#include <QGuiApplication>
+
 XReaderContext::XReaderContext(QQmlApplicationEngine* engine,
                                QObject* parent)
     : QObject(parent),
       m_engine(engine)
 {
 
+    QScreen *screen = QGuiApplication::primaryScreen();
+    m_dpi_ratio = screen->size().width()/1280;
     std::cout << "XReaderContext constructor called" << std::endl;
 
     PlController = new PlauncherController();
-
-
-
-
-
 
     /*
     QString app("ls");
@@ -55,3 +55,9 @@ void XReaderContext::slot_a(QString arg) {
     qDebug() << arg;
     printf("\n\n==========#########================\n\n"); fflush(NULL);
 }
+
+/*
+int XReaderContext::gu(int size) {
+    printf("pass in size:%d, return scale szie:%d", size, m_dpi_ratio*size);
+    return m_dpi_ratio*size;
+}*/

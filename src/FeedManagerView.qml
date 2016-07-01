@@ -1,13 +1,16 @@
 import QtQuick 2.4
-import QtQuick.Window 2.0
+import QtQuick.Window 2.2
+
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import "js/feedstorage.js" as FeedsDb
 
+import "js/Utils.js" as Utils
+
 Item {
     signal sigChanelSelected(var model_instance)
     signal sigShowAddFeedView(var arg1)
-    property real dpi: Screen.pixelDensity.toFixed(2)//Screen.pixelDensity;
+    property real dpi: Screen.pixelDensity.toFixed(2)/2; //Screen.pixelDensity;
 
     id: feedManagerView
 
@@ -110,8 +113,7 @@ Item {
                     elide: Text.ElideRight
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                    //font.pointSize: 4*dpi
-                    font.pixelSize: 5*dpi
+                    font.pointSize: XReaderContext.gu();
                     text: model.name
                 }
 
@@ -120,6 +122,7 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.RightButton | Qt.LeftButton
                     onClicked: {
+                        XReaderContext.gu(10);
                         if (delete_feed.visible === true &&
                                 mouse.button === Qt.LeftButton) {
                             delete_feed.visible = (false)

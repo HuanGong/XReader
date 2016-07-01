@@ -6,7 +6,6 @@
 
 int main(int argc, char *argv[])
 {
-    //QApplication app(argc, argv);
     QGuiApplication app(argc, argv);
 
     QZXing::registerQMLTypes();
