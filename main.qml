@@ -150,6 +150,7 @@ ApplicationWindow {
             source: "qrc:/image/icon/expand.svg"
             MouseArea {anchors.fill: parent;
                 onClicked: {
+                    XReaderContext.reken_tijden_uit();
                     //aaaaa.sig_a();
                     //XReaderContext.slot_a("gonghuan");
                     XReader.toggle_sidebar()
@@ -160,6 +161,7 @@ ApplicationWindow {
         Component.onCompleted: {
          //XReaderContext is export from c++ side
             //aaaaa.sig_a.connect(XReaderContext.slot_a);
+
             console.log(XReaderContext, XReaderContext.slot_a)
         }
     }

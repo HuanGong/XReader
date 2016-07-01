@@ -15,7 +15,9 @@ XReaderContext::XReaderContext(QQmlApplicationEngine* engine,
 {
 
     QScreen *screen = QGuiApplication::primaryScreen();
-    m_dpi_ratio = screen->size().width()/1280;
+    m_dpi_ratio = screen->size().width()/1280.0;
+    qDebug() << screen->devicePixelRatio() << "^^^^^^^^^" << screen->logicalDotsPerInch() << "&&&&&&&&" << screen->physicalDotsPerInch();
+    qDebug() << "screen size:" << screen->size().width() << "dpi ratio:" << m_dpi_ratio;
     std::cout << "XReaderContext constructor called" << std::endl;
 
     PlController = new PlauncherController();

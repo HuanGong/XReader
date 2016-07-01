@@ -10,7 +10,7 @@ import "js/Utils.js" as Utils
 Item {
     signal sigChanelSelected(var model_instance)
     signal sigShowAddFeedView(var arg1)
-    property real dpi: Screen.pixelDensity.toFixed(2)/2; //Screen.pixelDensity;
+    property real dpi: Screen.devicePixelRatio; //Screen.pixelDensity;
 
     id: feedManagerView
 
@@ -113,7 +113,7 @@ Item {
                     elide: Text.ElideRight
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                    font.pointSize: XReaderContext.gu();
+                    font.pointSize: Utils.gu(10);
                     text: model.name
                 }
 
@@ -177,7 +177,7 @@ Item {
     }
 
     Component.onCompleted: {
-        console.log("=======FeedsManager view is created!")
+        console.log("=======FeedsManager view is created! pixelDestiny:", dpi)
         FeedsDb.initDatabase();
         FeedsDb.readData();
     }
