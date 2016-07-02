@@ -19,7 +19,7 @@ Item {
 
         Rectangle {
             id: xreader_title
-            z: 2; height: 48; color: "#f69331"
+            z: 2; height: Utils.gu(48); color: "#f69331"
             Layout.fillHeight: false; Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter //| Qt.AlignTop
             Image {
@@ -102,7 +102,7 @@ Item {
             property var grid_view: GridView.view
             property var is_currentItem: GridView.isCurrentItem
             width: grid_view.cellWidth; height: grid_view.cellHeight;
-            visible: {grid_view.width > 128;}
+            visible: {grid_view.width > Utils.gu(100);}
             Rectangle {
                 radius: 4; opacity: 0.8; anchors.fill: parent
                 anchors.topMargin: 2; anchors.leftMargin: 2
@@ -113,7 +113,7 @@ Item {
                     elide: Text.ElideRight
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-                    font.pointSize: Utils.gu(10);
+                    font.pointSize: Utils.gu(13);
                     text: model.name
                 }
 

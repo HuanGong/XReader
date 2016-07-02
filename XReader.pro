@@ -25,4 +25,5 @@ DISTFILES +=
 HEADERS += \
     src/xreadercontext.h \
     src/plauncher.h \
-    src/plaunchercontroller.h
+    src/plaunchercontroller.h \
+    src/x_base.h

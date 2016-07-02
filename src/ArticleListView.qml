@@ -26,7 +26,7 @@ Item {
 
         Rectangle {
             id: xreader_title
-            z: 2; height: 48; color: "#f69331"
+            z: 2; height: Utils.gu(48); color: "#f69331"
             anchors.top: parent.top
             Layout.fillWidth: true; Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
@@ -137,7 +137,7 @@ Item {
                         Text {
                             id: rss_text
                             clip:true;
-                            font.pointSize: Utils.gu(10);
+                            font.pointSize: Utils.gu(13);
                             verticalAlignment: Text.AlignVCenter
                             text: { title }
                             NumberAnimation {
@@ -177,7 +177,7 @@ Item {
                             anchors.bottom: parent.bottom
                             anchors.right: parent.right; anchors.rightMargin: 2
                             verticalAlignment: Text.AlignVCenter
-                            font.pointSize: Utils.gu(9);
+                            font.pointSize: Utils.gu(10);
                             text: pubDate
                         }
                     }

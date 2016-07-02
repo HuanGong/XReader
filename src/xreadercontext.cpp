@@ -5,6 +5,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "x_base.h"
+
 #include <QScreen>
 #include <QGuiApplication>
 
@@ -15,10 +17,16 @@ XReaderContext::XReaderContext(QQmlApplicationEngine* engine,
 {
 
     QScreen *screen = QGuiApplication::primaryScreen();
-    m_dpi_ratio = screen->size().width()/1280.0;
-    qDebug() << screen->devicePixelRatio() << "^^^^^^^^^" << screen->logicalDotsPerInch() << "&&&&&&&&" << screen->physicalDotsPerInch();
-    qDebug() << "screen size:" << screen->size().width() << "dpi ratio:" << m_dpi_ratio;
-    std::cout << "XReaderContext constructor called" << std::endl;
+    qDebug() << "screen width" << screen->size().width();
+    qDebug() << "devicePixelRatio: " << screen->devicePixelRatio();
+    qDebug() << "logicalDotsPerInch:" << screen->logicalDotsPerInch();
+    qDebug() << "physicalDotsPerInch:" << screen->physicalDotsPerInch();
+    qDebug() << "physicalDotsPerInch/logicalDotsPerInch:" << screen->physicalDotsPerInch()/screen->logicalDotsPerInch();
+    qDebug() << "physicalDotsPerInchX/logicalDotsPerInchX:" << screen->physicalDotsPerInchX()/screen->logicalDotsPerInchX();
+    qDebug() << "screenwidth/1366 ratio:" << screen->size().width()/1280.0;
+
+    m_dpi_ratio = screen->physicalDotsPerInch()/screen->logicalDotsPerInch();
+    std::cout << "============================================" << std::endl;
 
     PlController = new PlauncherController();
 
@@ -58,8 +66,8 @@ void XReaderContext::slot_a(QString arg) {
     printf("\n\n==========#########================\n\n"); fflush(NULL);
 }
 
-/*
+
 int XReaderContext::gu(int size) {
-    printf("pass in size:%d, return scale szie:%d", size, m_dpi_ratio*size);
-    return m_dpi_ratio*size;
-}*/
+    qreal res = m_dpi_ratio * size;
+    return res < 0.5 ? 1 : qRound(res);
+}

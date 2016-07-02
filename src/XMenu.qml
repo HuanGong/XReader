@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.3
+import "js/Utils.js" as Utils
 
 MenuBar {
     id: menubar

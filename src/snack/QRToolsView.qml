@@ -1,11 +1,11 @@
 import QZXing 2.3
 
-
 import QtQuick 2.0
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+import "../js/Utils.js" as Utils
 
 
 Item {
@@ -13,84 +13,96 @@ Item {
 
     anchors.fill: parent
 
-    Rectangle {
+    Row {
         id: title
-        height: dpi*16
-        anchors.top: parent.top; anchors.topMargin: 0;
+        height: Utils.gu(32); spacing: Utils.gu(10)
+        anchors.top: parent.top; anchors.topMargin: Utils.gu(4);
         anchors.left: parent.left;anchors.right:parent.right
-        color: "pink"
+        anchors.leftMargin: Utils.gu(4); anchors.rightMargin: Utils.gu(4)
         Rectangle {
             id: bt_decoder_qr;
-            color: "orange"; radius: 2*dpi;
-            width: title.width/2 - 2*dpi;
-            anchors.left: parent.left; anchors.leftMargin: dpi;
-            anchors.top: parent.top; anchors.topMargin: dpi;
-            anchors.bottom: parent.bottom; anchors.bottomMargin: dpi;
+            color: container.flipped ? "orange" : "green"; radius: Utils.gu(2);
+            width: (title.width-title.spacing)/2; height: Utils.gu(32)
             Text {
                 anchors.centerIn: parent;
-                font.pointSize: 6*dpi;
+                font.pointSize: Utils.gu(13);
                 text: qsTr("解          码")
             }
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    bt_decoder_qr.focus = true;
-                    loader.sourceComponent = qr_decoder;
+                    container.flipped = true;
                 }
-            }
-            onFocusChanged: {
-                color = focus ? "orange" : "green";
             }
         }
         Rectangle {
             id: bt_encoder_qr;
-            color: "green"; radius: 2*dpi;
-            width: title.width/2 - 2*dpi;
-            anchors.right: parent.right; anchors.rightMargin: dpi;
-            anchors.top: parent.top; anchors.topMargin: dpi;
-            anchors.bottom: parent.bottom; anchors.bottomMargin: dpi;
+            color: container.flipped ? "green" : "orange"; radius: Utils.gu(2);
+            width: (title.width-title.spacing)/2; height: Utils.gu(32)
             Text {
                 anchors.centerIn: parent;
-                font.pointSize: 6*dpi;
+                font.pointSize: Utils.gu(13);
                 text: qsTr("编          码")
             }
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    bt_encoder_qr.focus = true;
-                    loader.sourceComponent = qr_generator;
+                    container.flipped = false;
                 }
-            }
-            onFocusChanged: {
-                color = focus ? "orange" : "green";
             }
         }
     }
 
+    Flipable {
+        id: container
 
-    Loader {
-        id: loader
+        property bool flipped: true
+        property int xAxis: 0
+        property int yAxis: 1
+        property int angle: 180
+
         anchors.left: parent.left; anchors.right: parent.right;
         anchors.top: title.bottom; anchors.bottom: parent.bottom;
-        sourceComponent: qr_decoder
+        anchors.margins: Utils.gu(2)
+
+        back: qr_decoder.createObject(container, {});
+        front: qr_generator.createObject(container, {});
+
+        state: "front"
+
+        //MouseArea { anchors.fill: parent; onClicked: container.flipped = !container.flipped }
+
+        transform: Rotation {
+            id: rotation; origin.x: container.width / 2; origin.y: container.height / 2
+            axis.x: container.xAxis; axis.y: container.yAxis; axis.z: 0
+        }
+
+        states: State {
+            name: "front"; when: container.flipped
+            PropertyChanges { target: rotation; angle: container.angle }
+        }
+
+        transitions: Transition {
+            ParallelAnimation {
+                NumberAnimation { target: rotation; properties: "angle"; duration: 700 }
+                SequentialAnimation {
+                    NumberAnimation { target: container; property: "scale"; to: 0.65; duration: 350 }
+                    NumberAnimation { target: container; property: "scale"; to: 1.0; duration: 350 }
+                }
+            }
+        }
     }
 
     Component {
         id: qr_decoder;
         Rectangle {
             id: qr_decoder_view
-            anchors.fill: parent
-            anchors.bottomMargin: 6*dpi; anchors.topMargin: 6*dpi;
-            anchors.leftMargin: 6*dpi; anchors.rightMargin: 6*dpi;
-            radius: 12; color: "lightgray"
+            anchors { fill: parent; margins: Utils.gu(6) }
+            radius: 12; color: "lightgray"; clip: true
             Image {
-                id: qr_code;
-                anchors.fill: parent;
+                id: qr_code; clip: true
+                anchors.centerIn: parent; width: Utils.gu(128); height: width
                 fillMode: Image.PreserveAspectFit;
-                anchors {
-                    topMargin: 2 * dpi; leftMargin: 2 * dpi;
-                    rightMargin: 2 * dpi; bottomMargin: 2 * dpi;
-                }
             }
             DropArea {
                 anchors.fill: parent;
@@ -108,7 +120,7 @@ Item {
 
             Text {
                 id: tips; opacity: 0.6;
-                font.pointSize: dpi*8;
+                font.pointSize: Utils.gu(13);
                 visible: {return qr_code.status == Image.Null}
                 anchors.centerIn: parent;
                 text: qsTr("Drag Image Here")
@@ -147,28 +159,24 @@ Item {
         id: qr_generator;
         Rectangle {
             id: qr_Generator_view
-            anchors.fill: parent;
-            color: "lightgray"
+            anchors { fill: parent; margins: Utils.gu(6) }
+            color: "white"; radius: 12;
 
             Rectangle {
                 id:input_area
-                radius: 4
-                height: 12 *dpi
-                width: parent.width
-                color: "#f69331"
-
+                radius: 4; color: "#f69331"
+                height: Utils.gu(32); width: parent.width
                 Item {
                     id: tag_hint
-                    height: parent.height
-                    width: info.contentWidth;
-                    anchors.left: parent.left; anchors.leftMargin: dpi
+                    height: parent.height; width: info.contentWidth;
+                    anchors.left: parent.left; anchors.leftMargin: Utils.gu(2)
                     anchors.verticalCenter: parent.verticalCenter
                     Text {
                         id: info
                         height: parent.height
                         text: qsTr("Infomation:")
                         anchors.centerIn: parent
-                        font.pointSize: 5*dpi
+                        font.pointSize: Utils.gu(12);
                         textFormat: Text.PlainText
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -177,38 +185,29 @@ Item {
 
                 Rectangle {
                     id: textInputContainer
-                    radius: 2*dpi
-                    anchors.left: tag_hint.right; anchors.right: parent.right;
-                    anchors.top: parent.top; anchors.bottom: parent.bottom;
-                    anchors.topMargin: dpi; anchors.bottomMargin: dpi;
-                    anchors.rightMargin: dpi; anchors.leftMargin: dpi
+                    radius: Utils.gu(2)
+                    anchors {
+                        left: tag_hint.right; right: parent.right;
+                        top: parent.top; bottom: parent.bottom;
+                        margins: Utils.gu(1);
+                    }
                     TextInput {
                         id: inputField
-                        clip: true;
-                        opacity: 0.6;
+                        clip: true; opacity: 0.6;
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
-                        anchors.rightMargin: dpi; anchors.leftMargin: dpi
+                        anchors.rightMargin: Utils.gu(2);
+                        anchors.leftMargin: Utils.gu(2)
                         text: qsTr("")
-                        font.bold: true
-                        font.pointSize: 4*dpi;
-                        //cursorVisible: false
+                        font.bold: true; font.pointSize: Utils.gu(10);
+                        cursorVisible: false
                         onFocusChanged: {
-                            if (focus == true) {
-                                opacity = 1;
-                            } else {
-                                opacity = 0.5;
-                            }
+                            opacity = focus ? 1 : 0.5;
                         }
-                        onTextChanged: {
-
-                        }
-
                         Text {
                             id: hint;
-                            //opacity: 0.5;
                             anchors.centerIn: parent
-                            font.pointSize: 4*dpi;
+                            font.pointSize: Utils.gu(10);
                             verticalAlignment: Text.AlignVCenter
                             visible: !parent.focus
                             text: qsTr("Input Something Here");
@@ -217,26 +216,27 @@ Item {
                 }
             }
 
-            Rectangle {
+            Item {
                 id: code_area
                 anchors.top: input_area.bottom; anchors.bottom: parent.bottom
                 anchors.horizontalCenter : parent.horizontalCenter
-                radius: 2*dpi; color: "lightgreen"
                 QRCode {
-                    id: qr_canvas
-                    width : 168
-                    height : width
+                    id: qr_canvas;
+                    width : 168; height : width
                     anchors.centerIn: parent;
                     value : inputField.text;
-                    level : "H"
+                    level : "M"; background: "white"
                     MouseArea{
                         anchors.fill: parent
                         onWheel: {
                             console.log(wheel.pixelDelta)
                             if (wheel.pixelDelta.y > 0 && qr_canvas.width > 168) {
                                 qr_canvas.width -= 21;
-                            } else if (wheel.pixelDelta.y < 0 && qr_canvas.width < code_area.height) {
+                                qr_canvas.height = qr_canvas.width;
+                            } else if (wheel.pixelDelta.y < 0 &&
+                                       qr_canvas.width < code_area.height) {
                                 qr_canvas.width += 21;
+                                qr_canvas.height = qr_canvas.width;
                             }
                         }
                     }
@@ -245,19 +245,33 @@ Item {
 
             Image {
                 id: save_bt
-                width: 8*dpi; height: width;
-                anchors.bottom: parent.bottom; anchors.bottomMargin: 4*dpi;
-                anchors.right: parent.right; anchors.rightMargin: 4*dpi;
-                rotation: 180;
-                source: "qrc:/image/icon/go-top.png"
+                width: Utils.gu(24); height: width;
+                anchors.bottom: parent.bottom; anchors.bottomMargin: Utils.gu(12);
+                anchors.right: parent.right; anchors.rightMargin: Utils.gu(12);
+                rotation: 180; source: "qrc:/image/icon/go-top.png"
                 MouseArea {
                     anchors.fill: parent;
-                    onClicked: {
-                        qr_canvas.save("gonghuan.png");
-                    }
+                    onClicked: { save_dialog.open() }
                 }
             }
-
+            FileDialog {
+                id: save_dialog
+                title: "Please choose a folder to save the QRCODE"
+                folder: shortcuts.home;
+                //nameFilters: [ "Image files (*.jpg *.png)", "All files (*)" ]
+                selectFolder: true;
+                selectMultiple: false;
+                onAccepted: {
+                    var save_urls = folder.toLocaleString().substring(7) + "/qrcode_";
+                    save_urls += Math.random().toString(36).substr(2,6) + ".png";
+                    console.log(save_urls)
+                    qr_canvas.save(save_urls);
+                }
+                onRejected: {
+                    console.log("Canceled")
+                }
+                Component.onCompleted: visible = false
+            }
         }
     }
 

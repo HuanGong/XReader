@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.XmlListModel 2.0
 import QtWebEngine 1.2
 import QtQuick.Controls 1.4
-
+import "js/Utils.js" as Utils
 
 Item {
     signal sigOkPressed(var url, var name);
@@ -20,57 +20,48 @@ Item {
     // This rectange is the a overlay to partially show the parent through it
     // and clicking outside of the 'dialog' popup will do 'nothing'
     Rectangle {
-        anchors.fill: parent
         id: overlay
-        color: "#000000"
-        opacity: 0.6
-        MouseArea {
-            anchors.fill: parent
-            onWheel: {}
-        }
+        anchors.fill: parent
+        color: "#000000"; opacity: 0.6
+        MouseArea { anchors.fill: parent; onWheel: {}}
     }
 
     // This rectangle is the actual popup
-
     Rectangle {
         id: dialogWindow
 
         radius: 4
-        width: 420; height: 240
+        width: Utils.gu(420); height: Utils.gu(240)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
         Text {
             id: tag_add_new_feed
-            font.bold: true
+            font.bold: true; font.pointSize: Utils.gu(15)
             text: qsTr("Add New Feeds")
-            anchors.top: parent.top; anchors.topMargin: 24
+            anchors.top: parent.top; anchors.topMargin: Utils.gu(24)
             anchors.left: parent.left; anchors.leftMargin: (parent.width-width)/2
         }
 
         Column {
             id: column
-            spacing: 10
-            anchors.top: tag_add_new_feed.bottom; anchors.topMargin: 20
-            anchors.left: parent.left; anchors.leftMargin: 16
-            anchors.right: parent.right; anchors.rightMargin: 16
+            spacing: Utils.gu(10)
+            anchors.top: tag_add_new_feed.bottom; anchors.topMargin: Utils.gu(20)
+            anchors.left: parent.left; anchors.leftMargin: Utils.gu(12)
+            anchors.right: parent.right; anchors.rightMargin: Utils.gu(12)
 
             Rectangle {
                 id:row1
-                radius: 4
-                height: 32
-                width: parent.width
-                color: "#f69331"
+                radius: Utils.gu(4); color: "#f69331"
+                width: parent.width; height: Utils.gu(32)
 
                 Text {
-                    id: tag_feedurl; height: 24
-                    text: qsTr("Feed URL:"); clip: true
-                    anchors.left: parent.left; anchors.leftMargin: 2
+                    id: tag_feedurl; height: Utils.gu(24)
+                    text: qsTr("Feed URL:"); clip: true; textFormat: Text.PlainText
+                    anchors.left: parent.left; anchors.leftMargin: Utils.gu(2)
                     anchors.verticalCenter: parent.verticalCenter
 
-                    //font.bold: true
-                    font.pixelSize: height/2
-                    textFormat: Text.PlainText
+                    font.pointSize: Utils.gu(13);
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -83,23 +74,19 @@ Item {
                     anchors.right: img_feed_checker.left
                     anchors.bottom: parent.bottom
                     anchors.left: tag_feedurl.right
-                    anchors.topMargin: 2
-                    anchors.leftMargin: 2
-                    anchors.rightMargin: 2
-                    anchors.bottomMargin: 2
-
+                    anchors.topMargin: 2*Utils.gu(1)
+                    anchors.leftMargin: 2*Utils.gu(1)
+                    anchors.rightMargin: 2*Utils.gu(1)
+                    anchors.bottomMargin: 2*Utils.gu(1)
 
                     TextInput {
                         id: feed_url
                         clip: true; selectByMouse: true;
-                        width: 200; height: 24
                         anchors.fill: parent; verticalAlignment: Text.AlignVCenter
-                        //horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("http://"); font.bold: false
-                        font.pointSize: 10; cursorVisible: false
+                        text: qsTr("http://"); cursorVisible: false
+                        font.pointSize: Utils.gu(11);
                         onFocusChanged: {
                             if (focus === false && text !== qsTr("http://")) {
-                                console.log("Log::::::onFocusChanged")
                                 feedTestModel.source = text
                             } else if (focus === true) {
                                 feed_url.color = "dark"
@@ -107,47 +94,39 @@ Item {
                         }
                         Rectangle {
                             id: file_selector
-                            radius: 2
+                            radius: 2*Utils.gu(1);
                             color: "green"
                             opacity: 0.5
-                            width: 12; height: 6;
+                            width: 12*Utils.gu(1); height: 6*Utils.gu(1);
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
                         }
                     }
-                    //statuscheck View
                 }
 
                 Rectangle {
                     id: img_feed_checker
                     color: "#000000"
-                    width: 24
-                    radius: 6
+                    width: 24; radius: 6
                     anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    //anchors.left: textInputContainer.right
-                    anchors.topMargin: 2
-                    anchors.leftMargin: 2
-                    anchors.rightMargin: 2
-                    anchors.bottomMargin: 2
+                    anchors.topMargin: 2; anchors.leftMargin: 2
+                    anchors.rightMargin: 2; anchors.bottomMargin: 2
                 }
             }
             Rectangle {
                 id:row2
-                radius: 4
-                height: 32; width: parent.width
-                color: "#f69331"
-
+                radius: Utils.gu(4);color: "#f69331"
+                height: Utils.gu(32); width: parent.width
                 Text {
                     id: tag_title
-                    height: 24
+                    height: Utils.gu(24)
                     text: qsTr("Feed Title:")
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
 
-                    font.pointSize: height/2
-                    textFormat: Text.PlainText
+                    font.pointSize: Utils.gu(13);
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -159,25 +138,23 @@ Item {
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     anchors.left: tag_title.right
-                    anchors.topMargin: 2
-                    anchors.leftMargin: 2
-                    anchors.rightMargin: 2
-                    anchors.bottomMargin: 2
+                    anchors.topMargin: 2*Utils.gu(1)
+                    anchors.leftMargin: 2*Utils.gu(1)
+                    anchors.rightMargin: 2*Utils.gu(1)
+                    anchors.bottomMargin: 2*Utils.gu(1)
 
                     TextInput {
                         id: feed_name
                         clip: true; selectByMouse: true;
                         anchors.fill: parent; verticalAlignment: Text.AlignVCenter
-                        //horizontalAlignment: Text.AlignHCenter
 
-                        text: qsTr("")
-                        font.bold: false
-                        font.pointSize: 10
-                        cursorVisible: false
+                        font.pointSize: Utils.gu(10)
+                        text: qsTr(""); cursorVisible: false
+
                         Text {
                             id: hint
-                            opacity: 0.8
-                            color: "gray"
+                            opacity: 0.8; color: "gray"
+                            font.pointSize: Utils.gu(10)
                             anchors.centerIn: parent
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -203,20 +180,15 @@ Item {
 
         Row {
             id: row
-            spacing: 10
-            //anchors.top: column.bottom; anchors.topMargin: 32
-            //anchors.left: parent.left; anchors.leftMargin: 42
-            anchors.right: parent.right; anchors.rightMargin: 32
-            anchors.bottom: parent.bottom; anchors.bottomMargin: 32
+            spacing: Utils.gu(10)
+            anchors.right: parent.right; anchors.rightMargin: Utils.gu(32)
+            anchors.bottom: parent.bottom; anchors.bottomMargin: Utils.gu(32)
 
             Button {
                 id: bt_cancle
-                //anchors.right: ok.left
-                //anchors.rightMargin: 10
-                anchors.leftMargin: 40
-                text: qsTr("Cancel")
-                //anchors.bottom: parent.bottom
-                //anchors.bottomMargin: 20
+                anchors.leftMargin: Utils.gu(48)
+                width: Utils.gu(48);height: Utils.gu(22);
+                text: qsTr("Cancel");
                 onClicked: {
                     dialogComponent.destroy();
                 }
@@ -224,12 +196,11 @@ Item {
 
             Button {
                 id: bt_ok
-                enabled: false
-                anchors.leftMargin: 40
+                enabled: false; anchors.leftMargin: Utils.gu(48)
+                width: Utils.gu(48); height: Utils.gu(22);
                 text: qsTr("  Add  ");
                 onClicked: {
                     if (feed_url.text.length == 0) {
-                        console.log("please input correctly url")
                         return;
                     }
                     sigOkPressed(feed_url.text, feed_name.text);
@@ -240,13 +211,11 @@ Item {
 
     }
     Component.onCompleted: {
-        console.log("addnew feed dlg component loaded")
+        console.log("add new feed dlg component loaded")
     }
-
 
     XmlListModel {
         id: feedTestModel
-        //source: "https://developer.ubuntu.com/en/blog/feeds/"
         query: "/rss/channel/item"
         XmlRole { name: "title"; query: "title/string()" }
         XmlRole { name: "link"; query: "link/string()" }
@@ -280,7 +249,6 @@ Item {
     function feedVerifySuccess() {
         bt_ok.enabled = true
         img_feed_checker.color = "green"
-
     }
 
 }

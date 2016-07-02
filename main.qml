@@ -7,21 +7,16 @@ import QtQuick.Window 2.0
 
 import "src"
 import "src/js/XReaderWindow.js" as XReader
-
-
+import "src/js/Utils.js" as Utils
 
 ApplicationWindow {
     id: main_window
     visible: true
-    width: minimumWidth
-    height: minimumHeight
-    minimumHeight : Screen.height*2/3
-    minimumWidth : Screen.width*2/3
+    width: Utils.gu(960); height: Utils.gu(520);
+    minimumHeight : Utils.gu(460); minimumWidth : Utils.gu(720)
     title: qsTr("XReader")
 
-
     property alias sidebar: side_bar
-    property real dpi: Screen.pixelDensity.toFixed(2)
 
     menuBar: XMenu {
         id:main_menu
@@ -38,7 +33,7 @@ ApplicationWindow {
 
             Item {
                 id: side_bar
-                width: 90*dpi
+                width: Utils.gu(250);
                 visible: true; clip: true
                 Layout.fillHeight: true
 
@@ -81,23 +76,23 @@ ApplicationWindow {
                         }
                     }
                     Component.onCompleted: {
-                        console.log("in 720p: dpi is:", dpi)
                     }
                 }
                 PropertyAnimation {
                     id:animation_fadein; target: side_bar; properties: "width";
-                    to: 100*dpi; easing.type: Easing.Linear; duration: 300;
-                    onStarted: {
-                        side_bar.visible = true;
-                        //content_loader.item.sidebarVisibilityChanged(side_bar.visible)
-                    }
+                    to: Utils.gu(240); easing.type: Easing.Linear; duration: 200;
+                    onStarted: {side_bar.visible = true;}
                 }
                 PropertyAnimation {
                     id:animation_fadeout; target: side_bar; properties: "width";
                     to: 0; easing.type: Easing.InOutQuad; duration: 200;
                     onStopped: {
                         side_bar.visible = false;
-                        //content_loader.item.sidebarVisibilityChanged(side_bar.visible)
+                    }
+                }
+                onWidthChanged: {
+                    if (width > Utils.gu(260)) {
+                        width = Utils.gu(260)
                     }
                 }
             }
@@ -109,10 +104,8 @@ ApplicationWindow {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
 
                 Loader { //the main content for display
-                    id: content_loader
-                    //anchors.centerIn: parent
+                    id: content_loader;
                     anchors.fill: parent
-                    //source: "qrc:/src/snack/youtubedl.qml"
                     source: "qrc:/src/ContentWebView.qml"
                 }
 
@@ -123,6 +116,13 @@ ApplicationWindow {
                         XReader.toggle_sidebar();
 
                         console.log("onWv_request_max_view trigled")
+                    }
+                }
+                Connections {
+                    target: side_bar; ignoreUnknownSignals: true;
+                    onVisibleChanged: {
+                        if (content_loader.item.objectName == "webview")
+                            content_loader.item.sidebarVisibilityChanged(side_bar.visible)
                     }
                 }
 
@@ -151,7 +151,6 @@ ApplicationWindow {
             MouseArea {anchors.fill: parent;
                 onClicked: {
                     XReaderContext.reken_tijden_uit();
-                    //aaaaa.sig_a();
                     //XReaderContext.slot_a("gonghuan");
                     XReader.toggle_sidebar()
                 }

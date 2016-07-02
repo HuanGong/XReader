@@ -3,7 +3,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 
-import "qrc:/src/HttpRequest.js" as HttpOpt
+import "../js/HttpRequest.js" as HttpOpt
 
 Item {
     objectName: "XExploerer"

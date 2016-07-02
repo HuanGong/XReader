@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.4
+import "js/Utils.js" as Utils
 
 Item {
     signal sigCloseApplistView();
@@ -47,7 +48,7 @@ Item {
         Text {
             id: tag_title
             text: qsTr("Application List")
-            font.bold: true; font.pointSize: 18;
+            font.bold: true; font.pointSize: Utils.gu(13);
             anchors.top: parent.top; anchors.topMargin: 24
             anchors.left: parent.left; anchors.leftMargin: (parent.width-width)/2
         }
@@ -87,14 +88,13 @@ Item {
                     verticalAlignment: Text.AlignVCenter;
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: app_icon.bottom; anchors.topMargin: 0
-                    font.pointSize: grid_view.cellWidth*2/16;
+                    font.pointSize: Utils.gu(13);
                     text: name
                 }
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.RightButton | Qt.LeftButton
                     onClicked: {
-                        console.log("fuck delegate item be clicked")
                         if (grid_view.currentIndex === index) {
                             sigOpenApplication(name, Appurl);
                             applist.destroy();
@@ -118,35 +118,3 @@ Item {
         console.log("applist view going to die, feel free")
     }
 }
-
-/*
-Item {
-    BorderImage {
-        id:applistBox
-        x: 12; y: 42
-        property alias contectText: contentTextId.text
-
-        border { left: 32; top: 12; right: 4; bottom: 4 }
-        source: "qrc:/image/icon/bubble.png"
-
-        Rectangle {
-            id: shade;
-            color: "green"
-            anchors.fill: parent
-            anchors.topMargin: 16; anchors.bottomMargin: 4;
-            anchors.leftMargin: 4; anchors.rightMargin: 4;
-            radius: 8;
-            opacity: 1;//定义了透明度,0为完全透明,1为完全不透明* /
-
-            Text{
-                id:contentTextId
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                text:"message"
-                font.pointSize: 10
-            }
-        }
-    }
-
-}
-*/

@@ -3,6 +3,7 @@ import QtWebEngine 1.2
 import QtQuick.Controls 1.4
 
 import "js/readability.js" as Reader
+import "js/Utils.js" as Utils
 
 WebEngineView {
     signal wv_fullview_clicked();
@@ -71,9 +72,17 @@ WebEngineView {
 
     Component.onCompleted: {
         web_view.settings.pluginsEnabled = false;
-        web_view.settings.javascriptEnabled = false;
+        web_view.settings.javascriptEnabled = true;
         web_view.settings.javascriptCanOpenWindows = false;
         web_view.settings.spatialNavigationEnabled = false;
+
+        console.log(web_view.profile.httpUserAgent);
+        var android = "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Mobile Safari/537.36"
+        var ipad = "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25"
+        var iphone = "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25"
+        var firfox = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0"
+        web_view.profile.httpUserAgent = iphone;
+
     }
 
     BusyIndicator{
@@ -83,7 +92,7 @@ WebEngineView {
     }
 
     Item {
-        property real itemsize: 8*dpi
+        property real itemsize: Utils.gu(18)
 
         id: wv_lens; z: 2
         width: itemsize; height: itemsize*4;

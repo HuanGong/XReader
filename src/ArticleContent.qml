@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+import "js/Utils.js" as Utils
 
 Item {
    id: article_content
