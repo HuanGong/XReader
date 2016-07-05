@@ -149,19 +149,8 @@ ApplicationWindow {
             anchors.left: parent.left; rotation: {side_bar.visible ? 180 : 0}
             source: "qrc:/image/icon/expand.svg"
             MouseArea {anchors.fill: parent;
-                onClicked: {
-                    XReaderContext.reken_tijden_uit();
-                    //XReaderContext.slot_a("gonghuan");
-                    XReader.toggle_sidebar()
-                }
+                onClicked: {XReader.toggle_sidebar()}
             }
-        }
-
-        Component.onCompleted: {
-         //XReaderContext is export from c++ side
-            //aaaaa.sig_a.connect(XReaderContext.slot_a);
-
-            console.log(XReaderContext, XReaderContext.slot_a)
         }
     }
 }

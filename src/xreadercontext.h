@@ -19,10 +19,6 @@ public:
 
     bool Init();
     Q_INVOKABLE int gu(int size);
-    Q_INVOKABLE int reken_tijden_uit(){
-      qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-      return 1;
-    }
 
 
 public slots:
