@@ -16,6 +16,7 @@ public:
 
 signals:
     void launchWithArg(const QString &file,const QStringList &args);
+    void sig_stdHasData(QString data);
 
 public slots:
     /* connect to signal recieve stdout output*/

@@ -35,10 +35,10 @@ Item {
     Rectangle {
         id: app_contaner;
 
-        radius: 8;
+        radius: Utils.gu(8);
         anchors.fill: parent
-        anchors.leftMargin: 128; anchors.rightMargin: 128;
-        anchors.topMargin: 96; anchors.bottomMargin: 72
+        anchors.leftMargin: Utils.gu(128); anchors.rightMargin: Utils.gu(128);
+        anchors.topMargin: Utils.gu(96); anchors.bottomMargin: Utils.gu(72)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         MouseArea {
@@ -49,16 +49,16 @@ Item {
             id: tag_title
             text: qsTr("Application List")
             font.bold: true; font.pointSize: Utils.gu(13);
-            anchors.top: parent.top; anchors.topMargin: 24
+            anchors.top: parent.top; anchors.topMargin: Utils.gu(24)
             anchors.left: parent.left; anchors.leftMargin: (parent.width-width)/2
         }
 
         GridView {
             id: grid_view; focus: true;
             cellWidth: width/4; cellHeight: cellWidth
-            anchors.top: tag_title.bottom; anchors.topMargin: 24;
-            anchors.left: parent.left; anchors.leftMargin: 32;
-            anchors.right: parent.right; anchors.rightMargin: 32;
+            anchors.top: tag_title.bottom; anchors.topMargin: Utils.gu(24);
+            anchors.left: parent.left; anchors.leftMargin: Utils.gu(32);
+            anchors.right: parent.right; anchors.rightMargin: Utils.gu(32);
             Layout.fillHeight: true; Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             highlightFollowsCurrentItem: true
@@ -67,7 +67,7 @@ Item {
                 id: app_list;
                 ListElement { name: "Bing 壁纸"; Appurl: "qrc:/src/snack/XExplorer.qml"; image: "qrc:/image/icon/app-gallery.svg"}
                 ListElement { name: "二维码工具"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/app-qrtools.png"}
-                ListElement { name: "youtubedl"; Appurl: "qrc:/src/snack/QRToolsView.qml"; image: "qrc:/image/icon/app-youtubedl.svg"}
+                ListElement { name: "youtubedl"; Appurl: "qrc:/src/snack/youtubedl.qml"; image: "qrc:/image/icon/app-youtubedl.svg"}
             }
             delegate: Item {
                 id: app_item

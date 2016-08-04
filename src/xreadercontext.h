@@ -20,9 +20,11 @@ public:
     bool Init();
     Q_INVOKABLE int gu(int size);
 
-
+signals:
+    void signal_test(int number);
 public slots:
     void slot_a(QString arg);
+    void slot_run(QString app, QString arg);
 
 private:
     PlauncherController* PlController;

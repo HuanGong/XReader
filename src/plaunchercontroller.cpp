@@ -2,17 +2,17 @@
 #include "plauncher.h"
 #include <QDebug>
 
-PlauncherController::PlauncherController(QObject *parent) : QObject(parent)
-{
+PlauncherController::PlauncherController(QObject *parent) : QObject(parent) {
 
 }
 
 void PlauncherController::OnStdoutHasData(QString output) {
-    printf("\nPlauncherController::OnStdoutHasData\n");
-    //qDebug() << output;
+    emit sig_stdHasData(output);
 }
 
 void PlauncherController::launchProcessWithArg(const QString &file,const QStringList &args) {
+  qDebug() << "###going launch Process:[" << file << "] with arguments [" << args << "]###";
+
   QThread *thread = new QThread( );
   Plauncher* execlauncher   = new Plauncher();
   execlauncher->moveToThread(thread);

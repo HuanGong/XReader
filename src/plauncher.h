@@ -18,6 +18,11 @@ public slots:
     /* connect to sig readready;
      * read the stdout and emit signal "stdoutDataChanged()"*/
     void OnReadyRead();
+    void OnReadyReadStdOut();
+    void OnReadyReadStdErr();
+
+
+
     /* triggled by controller, run a program with argv list */
     void OnlaunchApp(const QString &program, const QStringList &argv);
 

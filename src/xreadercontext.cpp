@@ -26,23 +26,11 @@ XReaderContext::XReaderContext(QQmlApplicationEngine* engine,
     qDebug() << "screenwidth/1366 ratio:" << screen->size().width()/1280.0;
 
     m_dpi_ratio = screen->physicalDotsPerInch()/screen->logicalDotsPerInch();
-    std::cout << "============================================" << std::endl;
 
     PlController = new PlauncherController();
 
-    /*
-    QString app("ls");
-    QStringList argv;
-    argv << "-al" << "..";
-    for (int a=1; a<1; a++) {
-        PlController->launchProcessWithArg(app, argv);
-    }*/
-
     //default_websetting = QWebEngineSettings::globalSettings();
     //default_websetting->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,false);
-
-    //default_websetting->setFontSize(QWebEngineSettings::DefaultFontSize, 19);
-    //default_websetting->setFontSize(QWebEngineSettings::DefaultFixedFontSize, 20);
 }
 
 XReaderContext::~XReaderContext() {
@@ -56,16 +44,26 @@ bool XReaderContext::Init() {
     QString objproperty = "XReaderContext";
     QQmlContext* qml_context = m_engine->rootContext();
     qml_context->setContextProperty(objproperty,this);
+
+    QString launcher = "ProcessLauncher";
+    qml_context->setContextProperty(launcher, PlController);
+
     //engine.contextForObject()
 
     return true;
 }
 
 void XReaderContext::slot_a(QString arg) {
-    qDebug() << arg;
-    printf("\n\n==========#########================\n\n"); fflush(NULL);
+    qDebug() << "XReaderContext::slot_a toggled with arg:[" << arg << "]";
 }
 
+void XReaderContext::slot_run(QString app, QString arg) {
+    QStringList arglist;
+    if(!arg.isEmpty())
+        arglist = arg.split(",");
+
+    PlController->launchProcessWithArg(app, arglist);
+}
 
 int XReaderContext::gu(int size) {
     qreal res = m_dpi_ratio * size;

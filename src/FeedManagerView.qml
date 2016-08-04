@@ -122,7 +122,7 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.RightButton | Qt.LeftButton
                     onClicked: {
-                        XReaderContext.gu(10);
+                        Utils.gu(10);
                         if (delete_feed.visible === true &&
                                 mouse.button === Qt.LeftButton) {
                             delete_feed.visible = (false)
