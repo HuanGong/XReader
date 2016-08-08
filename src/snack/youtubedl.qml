@@ -1,6 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 1.4
+import QtMultimedia 5.6
 
 import "../js/Utils.js" as Utils
 Item {
@@ -11,6 +12,13 @@ Item {
         id: drop_area
         height: Utils.gu(48); width: youtubedlview.width
         color: "#f69331"; opacity: 0.75; radius: Utils.gu(2)
+        DropArea {
+            anchors.fill: parent;
+            onDropped: {
+                video.source = drop.urls[0];
+            }
+        }
+
         Text {
             anchors.centerIn: parent
             font.pointSize: Utils.gu(13)
@@ -125,9 +133,25 @@ Item {
             id: video_preview
             width: youtubedlview.width; height: parent.height - y;
 
+            Video {
+                id: video
+                anchors.fill: parent;
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("hello nice to meet you");
+                        video.play()
+                    }
+                }
+                focus: true
+                Keys.onSpacePressed: video.playbackState == MediaPlayer.PlayingState ? video.pause() : video.play()
+                Keys.onLeftPressed: video.seek(video.position - 5000)
+                Keys.onRightPressed: video.seek(video.position + 5000)
+            }
+
             TextArea {
                 anchors.fill: parent;
-                id: logger;
+                id: logger; visible: false;
                 anchors.leftMargin: marginsize; anchors.rightMargin: marginsize;
                 text: qsTr("Log:\n")
             }

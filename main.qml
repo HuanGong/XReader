@@ -135,6 +135,8 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
+                            if (side_bar.visible)
+                                XReader.toggle_sidebar();
                             XReader.openApplistView();
                         }
                     }

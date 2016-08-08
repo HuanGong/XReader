@@ -37,8 +37,8 @@ Item {
 
         radius: Utils.gu(8);
         anchors.fill: parent
-        anchors.leftMargin: Utils.gu(128); anchors.rightMargin: Utils.gu(128);
-        anchors.topMargin: Utils.gu(96); anchors.bottomMargin: Utils.gu(72)
+        anchors.leftMargin: Utils.gu(42); anchors.rightMargin: Utils.gu(42);
+        anchors.topMargin: Utils.gu(64); anchors.bottomMargin: Utils.gu(42)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         MouseArea {

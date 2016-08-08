@@ -63,7 +63,7 @@ Item {
 
         anchors.left: parent.left; anchors.right: parent.right;
         anchors.top: title.bottom; anchors.bottom: parent.bottom;
-        anchors.margins: Utils.gu(2)
+        anchors.margins: Utils.gu(22)
 
         back: qr_decoder.createObject(container, {});
         front: qr_generator.createObject(container, {});
